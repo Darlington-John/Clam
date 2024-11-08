@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectMongo from '~/lib/mongodb';
 import User from '~/models/User';
 
-export async function GET(
-   req: NextRequest,
-   context: { params: { bookId: string } }
-) {
+type Context = {
+   params: {
+      bookId: string;
+   };
+};
+export async function GET(req: NextRequest, context: Context) {
    try {
       await connectMongo();
       const { bookId } = await context.params; // Use context.params
