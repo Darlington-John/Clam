@@ -19,14 +19,9 @@ const BookCashFlow = (props: any) => {
           description,
           setDescription,
           setAddDescriptionError,
+          incomeTotal,
+          expenseTotal,
      } = props;
-     const incomeTotal = bookData?.entries.reduce((total: any, entry: any) => {
-          return entry.income ? total + parseFloat(entry.amount) : total;
-     }, 0);
-
-     const expenseTotal = bookData?.entries.reduce((total: any, entry: any) => {
-          return entry.expense ? total + parseFloat(entry.amount) : total;
-     }, 0);
 
      return (
           <section className="w-full  flex gap-4  md:flex-col ">

@@ -3,80 +3,90 @@
 @tailwind utilities;
 
 body {
-     font-family: var(--font-apercu);
+   font-family: var(--font-apercu);
 }
 
 .fancy {
-     font-family: var(--font-instrument);
+   font-family: var(--font-instrument);
 }
 
 .norm-mid {
-     font-family: var(--font-apercu-mid);
+   font-family: var(--font-apercu-mid);
 }
 
 input::placeholder {
-     color: #8d8896;
+   color: #8d8896;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: #000000 !important;
-     box-shadow: inset 0 0 20px 20px #eaeaec;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: #000000 !important;
+   box-shadow: inset 0 0 20px 20px #eaeaec;
 }
 
 @keyframes fadeIn {
-     from {
-          transform: translateY(100%);
-     }
-     to {
-          transform: translateY(0px);
-     }
+   from {
+      transform: translateY(100%);
+   }
+   to {
+      transform: translateY(0px);
+   }
 }
 
 @keyframes fadeOut {
-     from {
-          transform: translateY(0%);
-     }
-     to {
-          transform: translateY(100%);
-     }
+   from {
+      transform: translateY(0%);
+   }
+   to {
+      transform: translateY(100%);
+   }
 }
 
 .pop {
-     transform: translateY(100%);
-     animation: fadeIn 0.5s forwards;
+   transform: translateY(100%);
+   animation: fadeIn 0.5s forwards;
 }
 .pop-hidden {
-     animation: fadeOut 0.5s forwards;
+   animation: fadeOut 0.5s forwards;
 }
+.Toastify__toast {
+   font-size: 14px !important;
+   outline: 2px solid #f2ebff;
+   box-shadow: 0px 12px 16px 0px rgba(0, 0, 0, 0.1) !important;
+   border-radius: 1000px !important;
+}
+/* .Toastify__toast--success {
+   background-color: #00ff4c !important;
+
+} */
 
 /* CSS to hide the arrows */
 .number-input::-webkit-outer-spin-button,
 .number-input::-webkit-inner-spin-button {
-     -webkit-appearance: none;
-     margin: 0;
+   -webkit-appearance: none;
+   margin: 0;
 }
 
 .number-input[type='number'] {
-     appearance: textfield;
-     -moz-appearance: textfield; /* Firefox */
+   appearance: textfield;
+   -moz-appearance: textfield; /* Firefox */
 }
 .flow::-webkit-scrollbar {
-     width: 4px;
-     overflow: hidden;
+   width: 4px;
+   overflow: hidden;
 }
 .flow::-webkit-scrollbar-thumb {
-     background: #eaeaec; /* Color of the scrollbar thumb */
-     border-radius: 6px; /* Rounded corners */
+   background: #eaeaec; /* Color of the scrollbar thumb */
+   border-radius: 6px; /* Rounded corners */
 }
 
 .flow::-webkit-scrollbar-thumb:hover {
-     background: #cececf; /* Color of the scrollbar thumb on hover */
+   background: #cececf; /* Color of the scrollbar thumb on hover */
 }
 
 .flow::-webkit-scrollbar-track {
-     background: #ffffff00; /* Color of the scrollbar track */
+   background: #ffffff00; /* Color of the scrollbar track */
 }

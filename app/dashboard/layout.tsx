@@ -32,7 +32,7 @@ export default function RootLayout({
                          alt=""
                     />
                ) : (
-                    <section className="h-full overflow-auto  w-full bg-lightestGrey">
+                    <section className="h-full overflow-auto  w-full bg-lightestGrey pb-10">
                          <Header />
 
                          {children}

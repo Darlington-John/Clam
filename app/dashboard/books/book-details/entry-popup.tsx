@@ -176,7 +176,9 @@ const EntryPopup = (props: any) => {
                                                                  handleTagClick(
                                                                       data
                                                                  );
-                                                                 toggleTagPopup();
+                                                                 setIsTagActive(
+                                                                      false
+                                                                 );
                                                             }}
                                                             className="w-full  h-[40px]  hover:bg-lightGrey flex items-center  gap-2  duration-150 text-sm  px-2  rounded-lg  border-b border-lightGrey  shrink-0"
                                                        >
