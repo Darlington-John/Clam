@@ -4,11 +4,11 @@ import User from '~/models/User';
 
 export async function GET(
    req: NextRequest,
-   { params }: { params: { bookId: string } }
+   context: { params: { bookId: string } }
 ) {
    try {
       await connectMongo();
-      const { bookId } = params; // Corrected destructuring
+      const { bookId } = await context.params; // Use context.params
 
       const { searchParams } = new URL(req.url);
       const page = parseInt(searchParams.get('page') || '1', 10);
