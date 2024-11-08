@@ -4,20 +4,19 @@ import User from '~/models/User';
 
 export async function GET(
    req: NextRequest,
-   { params }: { params: { bookId: string } }
+   context: { params: { bookId: string } }
 ) {
    try {
       await connectMongo();
-      const { bookId } = await params;
+      const { bookId } = await context.params;
 
       const { searchParams } = new URL(req.url);
       const page = parseInt(searchParams.get('page') || '1', 10);
       const limit = parseInt(searchParams.get('limit') || '10', 10);
 
-      // Fetch the user with sorted entries for the specified book ID
       const user = await User.findOne(
          { 'books._id': bookId },
-         { 'books.$': 1 } // Retrieves only the specific book
+         { 'books.$': 1 }
       ).lean();
 
       if (!user || !user.books.length) {
@@ -26,7 +25,6 @@ export async function GET(
 
       const book: any = user.books[0];
 
-      // Sort entries by `createdAt` descending and paginate directly in MongoDB
       const sortedAndPaginatedEntries = book.entries
          .sort(
             (a: any, b: any) =>
