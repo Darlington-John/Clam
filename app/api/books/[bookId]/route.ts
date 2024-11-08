@@ -2,15 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectMongo from '~/lib/mongodb';
 import User from '~/models/User';
 
-type Context = {
-   params: {
-      bookId: string;
-   };
-};
-export async function GET(req: NextRequest, context: Context) {
+export async function GET(req: NextRequest, context: { params: any }) {
    try {
       await connectMongo();
-      const { bookId } = await context.params; // Use context.params
+      const { bookId } = await context.params;
 
       const { searchParams } = new URL(req.url);
       const page = parseInt(searchParams.get('page') || '1', 10);
