@@ -6,11 +6,11 @@ const Pagination = (props: any) => {
       handleNextPage,
       handlePreviousPage,
       totalEntries,
-      entriesPerPage,
+      entriesLimit,
       totalPages,
    } = props;
-   const startIndex = (currentPage - 1) * entriesPerPage + 1;
-   const endIndex = Math.min(currentPage * entriesPerPage, totalEntries);
+   const startIndex = (currentPage - 1) * entriesLimit + 1;
+   const endIndex = Math.min(currentPage * entriesLimit, totalEntries);
    return (
       <div className="flex items-center justify-between  gap-4 w-full">
          {totalEntries > 0 && (
@@ -20,7 +20,7 @@ const Pagination = (props: any) => {
                </span>
             </div>
          )}
-         {totalEntries > 10 && (
+         {totalEntries > entriesLimit && (
             <div className="flex items-center gap-2  rounded-lg p-1  border border-lightGreyBorder ">
                <button
                   onClick={handlePreviousPage}
@@ -43,10 +43,10 @@ const Pagination = (props: any) => {
                <button
                   onClick={handleNextPage}
                   disabled={
-                     currentPage === Math.ceil(totalEntries / entriesPerPage)
+                     currentPage === Math.ceil(totalEntries / entriesLimit)
                   }
                   className={`py-2  px-4 flex items-center justify-center  ${
-                     currentPage === Math.ceil(totalEntries / entriesPerPage) &&
+                     currentPage === Math.ceil(totalEntries / entriesLimit) &&
                      'opacity-20'
                   }`}
                >

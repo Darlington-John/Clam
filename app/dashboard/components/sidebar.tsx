@@ -2,9 +2,7 @@ import Image from 'next/image';
 import logo from '~/public/images/Logo.png';
 import home from '~/public/icons/home.svg';
 import book from '~/public/icons/book-open-.svg';
-import { toggleOverlay } from './header';
 import bookOpenGrey from '~/public/icons/book-open-grey.svg';
-import xmark from '~/public/icons/xgrey.svg';
 import { useUser } from '~/app/context/auth-context';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -74,7 +72,7 @@ const Sidebar = ({ hidden }: any) => {
    };
    return (
       <section
-         className={`h-full w-[260px] px-6 pt-10 pb-5 flex flex-col gap-6 items-start shrink-0  xl:w-[200px] xl:pt-5 xl:px-2  bg-white lg:w-[260px]    ${
+         className={`h-full w-[260px] px-6 pt-10 pb-5 flex flex-col gap-6 items-start shrink-0  xl:w-[200px] xl:pt-5 xl:px-2  bg-white lg:w-[260px] lg:px-4    ${
             hidden && 'lg:hidden'
          }`}
       >
@@ -84,12 +82,6 @@ const Sidebar = ({ hidden }: any) => {
                alt=""
                className="w-[110px] xl:w-[90px] shrink-0"
             />
-            <button
-               onClick={toggleOverlay}
-               className="shrink-0 p-1 bg-lightPurple  text-black w-8  h-8  rounded-full flex items-center justify-center  hidden lg:flex "
-            >
-               <Image src={xmark} alt="" />
-            </button>
          </div>
          <h1 className="text-grey text-sm">YOUR BOOKS</h1>
          <div className="h-full  w-full flex flex-col gap-2">

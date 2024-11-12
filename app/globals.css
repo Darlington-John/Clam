@@ -52,18 +52,39 @@ input:-webkit-autofill:active {
 .pop-hidden {
    animation: fadeOut 0.5s forwards;
 }
+/* .Toastify__toast-container {
+   height: 2px !important;
+} */
+.Toastify__toast-container {
+   --toastify-toast-width: auto;
+}
+.Toastify__progress-bar--success {
+   --toastify-color-progress-success: white;
+   visibility: hidden;
+}
+.Toastify__toast-icon {
+   margin: 0px !important;
+}
 .Toastify__toast {
    font-size: 14px !important;
    outline: 2px solid #f2ebff;
    box-shadow: 0px 12px 16px 0px rgba(0, 0, 0, 0.1) !important;
    border-radius: 1000px !important;
+   overflow: hidden !important;
+   --toastify-toast-width: auto;
+   --toastify-toast-min-height: 40px;
+   padding: 0px 10px 0px 10px !important;
+   text-align: center !important;
+   color: #fff !important;
 }
-/* .Toastify__toast--success {
-   background-color: #00ff4c !important;
 
-} */
-
-/* CSS to hide the arrows */
+.Toastify__toast--success {
+   background-color: #00a600 !important;
+}
+.Toastify__toast-body {
+   padding: 0px !important;
+   margin: 0px !important;
+}
 .number-input::-webkit-outer-spin-button,
 .number-input::-webkit-inner-spin-button {
    -webkit-appearance: none;
@@ -72,21 +93,74 @@ input:-webkit-autofill:active {
 
 .number-input[type='number'] {
    appearance: textfield;
-   -moz-appearance: textfield; /* Firefox */
+   -moz-appearance: textfield;
 }
 .flow::-webkit-scrollbar {
    width: 4px;
    overflow: hidden;
 }
 .flow::-webkit-scrollbar-thumb {
-   background: #eaeaec; /* Color of the scrollbar thumb */
-   border-radius: 6px; /* Rounded corners */
+   background: #eaeaec;
+   border-radius: 6px;
 }
 
 .flow::-webkit-scrollbar-thumb:hover {
-   background: #cececf; /* Color of the scrollbar thumb on hover */
+   background: #cececf;
 }
 
 .flow::-webkit-scrollbar-track {
-   background: #ffffff00; /* Color of the scrollbar track */
+   background: #ffffff00;
+}
+
+.radio {
+   display: block;
+   position: relative;
+   cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.radio input {
+   position: absolute;
+   opacity: 0;
+   cursor: pointer;
+}
+
+.checkmark {
+   position: absolute;
+   top: 0;
+   left: 0;
+   height: 20px;
+   width: 20px;
+   background-color: #f1f1f4;
+   border-radius: 50%;
+}
+
+.radio:hover input ~ .checkmark {
+   background-color: #f2ebff;
+}
+
+.radio input:checked ~ .checkmark {
+   background-color: #5d1ec2;
+}
+
+.checkmark:after {
+   content: '';
+   position: absolute;
+   display: none;
+}
+
+.radio input:checked ~ .checkmark:after {
+   display: block;
+}
+
+.radio .checkmark:after {
+   top: 6px;
+   left: 6px;
+   width: 8px;
+   height: 8px;
+   border-radius: 50%;
+   background: white;
 }

@@ -1,8 +1,8 @@
-// app/dashboard/books/[bookId]/page.tsx
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { FaCheck } from 'react-icons/fa';
 import { useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useUser } from '~/app/context/auth-context';
@@ -12,7 +12,7 @@ import EntryPopup from '../book-details/entry-popup';
 import bookIcon from '~/public/icons/book-open-.svg';
 import rightIcon from '~/public/icons/chevron-right.svg';
 import BookEntries from '../book-details/book-entries/book-entries';
-
+import checkIcon from '~/public/icons/check.svg';
 const BookPage = () => {
    const { user } = useUser();
    const { bookId } = useParams();
@@ -23,8 +23,8 @@ const BookPage = () => {
    const [totalPages, setTotalPages] = useState(0);
    const [incomeTotal, setIncomeTotal] = useState(0);
    const [expenseTotal, setExpenseTotal] = useState(0);
-   const entriesPerPage = 10;
 
+   const [entriesLimit, setEntriesLimit] = useState(10);
    const [amount, setAmount] = useState('');
    const [note, setNote] = useState('');
    const [tagValue, setTagValue] = useState('');
@@ -34,7 +34,7 @@ const BookPage = () => {
    const [addDescriptionLoading, setAddDescriptionLoading] = useState(false);
    const [addDescriptionError, setAddDescriptionError] = useState('');
    const [isDeleting, setIsDeleting] = useState(false);
-
+   const [editDescription, setEditDescription] = useState(false);
    const spanRef = useRef<HTMLSpanElement>(null);
    const [inputWidth, setInputWidth] = useState(170);
 
@@ -52,6 +52,34 @@ const BookPage = () => {
       ref: tagRef,
       togglePopup: toggleTagPopup,
    } = usePopup();
+   const cashFlowRef = useRef<HTMLDivElement>(null);
+   const footerRef = useRef<HTMLDivElement>(null);
+   const [targetHeight, setTargetHeight] = useState<number>(320);
+   useEffect(() => {
+      const calculateHeight = () => {
+         try {
+            const viewportHeight = window.innerHeight;
+            const headerHeight =
+               cashFlowRef.current?.getBoundingClientRect().height || 60;
+            const footerHeight =
+               footerRef.current?.getBoundingClientRect().height || 180;
+            const calculatedHeight =
+               viewportHeight - (headerHeight + footerHeight);
+
+            setTargetHeight(calculatedHeight > 0 ? calculatedHeight : 320);
+         } catch (error) {
+            console.error('Error calculating height:', error);
+            setTargetHeight(320);
+         }
+      };
+
+      calculateHeight();
+      window.addEventListener('resize', calculateHeight);
+
+      return () => {
+         window.removeEventListener('resize', calculateHeight);
+      };
+   }, []);
 
    const [activeButton, setActiveButton] = useState<'income' | 'expense'>(
       'income'
@@ -59,19 +87,27 @@ const BookPage = () => {
    const tags = ['important', 'fun', 'emergency', 'urgent', 'miscellaneous'];
 
    useEffect(() => {
-      const fetchBookData = async (page: number) => {
+      const fetchBookData = async (page: any) => {
          setIsLoading(true);
          try {
-            const res = await fetch(`/api/books/${bookId}?page=${page}`);
+            const screenSize = window.innerWidth;
+
+            if (screenSize > 1700) {
+               setEntriesLimit(20);
+            } else if (screenSize <= 1600) {
+               setEntriesLimit(10);
+            }
+
+            const res = await fetch(
+               `/api/books/${bookId}?page=${page}&limit=${entriesLimit}`
+            );
             if (res.ok) {
                const data = await res.json();
                setBookData(data.book);
                setTotalEntries(data.book.totalEntries);
                setIncomeTotal(data.book.incomeTotal);
                setExpenseTotal(data.book.expenseTotal);
-               setTotalPages(
-                  Math.ceil(data.book.totalEntries / entriesPerPage)
-               );
+               setTotalPages(Math.ceil(data.book.totalEntries / entriesLimit));
             } else {
                console.error('Error fetching updated book data');
             }
@@ -92,8 +128,7 @@ const BookPage = () => {
       return () => {
          window.removeEventListener('entryUpdated', handleEntryCreated);
       };
-   }, [bookId, currentPage]);
-
+   }, [bookId, currentPage, entriesLimit]);
    useEffect(() => {
       if (spanRef.current) {
          const newWidth = amount ? spanRef.current.offsetWidth : 170;
@@ -131,6 +166,9 @@ const BookPage = () => {
    const createEntry = async () => {
       if (!amount.trim()) {
          setError('Enter an amount');
+         return;
+      }
+      if (addEntryLoading) {
          return;
       }
       try {
@@ -175,7 +213,9 @@ const BookPage = () => {
          toggleAddEntryPopup();
          const event = new Event('entryUpdated');
          window.dispatchEvent(event);
-         toast.success('Entry created successfully');
+         toast.success(`Entry created successfully`, {
+            icon: <FaCheck color="white" />,
+         });
       } catch (error) {
          setError(error instanceof Error ? error.message : 'An error occurred');
       } finally {
@@ -220,8 +260,12 @@ const BookPage = () => {
          }
          setDescription('');
          const event = new Event('entryUpdated');
+
          window.dispatchEvent(event);
-         toast.success('Description added successfully');
+         toast.success(`Description added successfully`, {
+            icon: <FaCheck color="white" />,
+         });
+         setEditDescription(false);
       } catch (error) {
          setAddDescriptionError(
             error instanceof Error ? error.message : 'An error occurred'
@@ -260,7 +304,9 @@ const BookPage = () => {
          } else {
             const event = new Event('entryUpdated');
             window.dispatchEvent(event);
-            toast.success(`Entry deleted successfully`);
+            toast.success(`Entry deleted successfully`, {
+               icon: <FaCheck color="white" />,
+            });
          }
       } catch (error) {
          console.error('Error deleting message:', error);
@@ -307,6 +353,8 @@ const BookPage = () => {
       incomeTotal,
       expenseTotal,
       setDescription,
+      editDescription,
+      setEditDescription,
    };
 
    const paginationProps = {
@@ -314,7 +362,7 @@ const BookPage = () => {
       handleNextPage,
       handlePreviousPage,
       totalEntries,
-      entriesPerPage,
+      entriesLimit,
       totalPages,
    };
 
@@ -324,11 +372,11 @@ const BookPage = () => {
       paginationProps,
       isLoading,
       handleDeleteEntry,
+      targetHeight,
    };
-   const notify = () => toast('This is a toast notification !');
+
    return (
-      <div className="h-auto w-full px-6 flex flex-col gap-4 pb-5">
-         <button onClick={notify}>Notify</button>
+      <div className="h-auto w-full px-6 flex flex-col gap-4 pb-5 ">
          <div className="flex items-center justify-between w-full hidden sm:flex bg-white py-2 px-4 rounded-[8px]">
             <div className="flex items-center gap-2">
                <Image src={bookIcon} className="w-5 h-5" alt="Book Icon" />
@@ -338,8 +386,12 @@ const BookPage = () => {
             </div>
             <Image src={rightIcon} className="w-5 h-5" alt="Right Icon" />
          </div>
-         <BookCashFlow {...cashFlowProps} />
-         <BookEntries {...bookEntriesProps} />
+         <div ref={cashFlowRef}>
+            <BookCashFlow {...cashFlowProps} />
+         </div>
+         <div>
+            <BookEntries {...bookEntriesProps} />
+         </div>
          <EntryPopup {...entryPopupProps} />
       </div>
    );

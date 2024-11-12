@@ -295,7 +295,7 @@ const CashFlow = () => {
                   </LineChart>
                </ResponsiveContainer>
             </section>
-            <div className="flex shrink-0  rounded-2xl   w-[25%] flex-col gap-3 items-start  xl:gap-2 md:w-auto  4xl:justify-between lg:justify-between    ">
+            <div className="flex shrink-0  rounded-2xl   w-[25%] flex-col gap-3 items-start  xl:gap-2 md:w-auto    lg:justify-between    ">
                <div className="flex flex-col gap-4 w-full  bg-white p-6  rounded-2xl xl:gap-2 lg:p-4">
                   <div className="flex gap-2 py-2 px-3   items-start bg-lightGreen border border-lightAqua rounded-lg p-2  lg:py-1 lg:gap-1">
                      <Image

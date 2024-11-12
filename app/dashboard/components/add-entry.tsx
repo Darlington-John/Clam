@@ -12,6 +12,8 @@ import loading from '~/public/images/load.svg';
 import danger from '~/public/icons/exclamation.svg';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { FaCheck } from 'react-icons/fa';
 const AddEntry = () => {
    const { user } = useUser();
    const {
@@ -59,7 +61,9 @@ const AddEntry = () => {
             const data = await res.json();
             throw new Error(data.message || 'Failed to create book');
          }
-         toast.success('Book created successfully');
+         toast.success(`Book created successfully`, {
+            icon: <FaCheck color="white" />,
+         });
          toggleNewBookPopup();
          setBookName('');
       } catch (error) {

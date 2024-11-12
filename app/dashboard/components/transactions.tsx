@@ -15,7 +15,7 @@ const Transactions = () => {
    const { allUserEntries } = useDashboard();
 
    return (
-      <section className="flex  items-start gap-4  flex-col  pb-10   px-6  md:pl-6 md:pr-0 ">
+      <section className="flex  items-start gap-4  flex-col  pb-10   px-6  md:px-6 ">
          <h1 className="text-[22px] text-black  fancy">
             Most Recent transactions
          </h1>
