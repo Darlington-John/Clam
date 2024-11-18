@@ -14,7 +14,7 @@ const entriesSchema: Schema = new Schema(
       viaReport: { type: Boolean, required: false, default: false },
       income: { type: Boolean, required: false },
       expense: { type: Boolean, required: false },
-      book: { type: String, required: true },
+      book: { type: String, required: false },
       tag: { type: String, required: false },
       note: { type: String, required: false },
    },
@@ -36,6 +36,7 @@ const booksSchema: Schema = new Schema(
 interface IUser extends Document {
    email: string;
    password: string;
+   name: string;
    oauthId?: string;
    authProvider: 'local' | 'google';
    profile: string;
@@ -47,6 +48,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
    {
       profile: { type: String, required: false },
       email: { type: String, required: true, unique: true },
+      name: { type: String, required: false },
       password: {
          type: String,
          required: function () {
@@ -61,9 +63,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
       },
       verificationHash: {
          type: String,
-         required: function () {
-            return this.authProvider === 'local';
-         },
+         required: false,
       },
       books: { type: [booksSchema], default: [] },
    },

@@ -7,69 +7,72 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function POST(req: NextRequest) {
-     try {
-          await connectMongo();
+   try {
+      await connectMongo();
 
-          const {
-               email,
-               password,
-               authProvider = 'local',
-               oauthId,
-               profile,
-          } = await req.json();
-          const verificationCode = Math.floor(1000 + Math.random() * 9000);
-          const hashedVerificationCode =
-               authProvider === 'local'
-                    ? await bcrypt.hash(verificationCode.toString(), 10)
-                    : undefined;
+      const {
+         email,
+         password,
+         authProvider = 'local',
+         oauthId,
+         profile,
+         firstName,
+         name,
+      } = await req.json();
+      const verificationCode = Math.floor(1000 + Math.random() * 9000);
+      const hashedVerificationCode =
+         authProvider === 'local'
+            ? await bcrypt.hash(verificationCode.toString(), 10)
+            : undefined;
 
-          if (authProvider === 'local' && (!email || !password)) {
-               return NextResponse.json(
-                    { error: 'Missing required fields' },
-                    { status: 400 }
-               );
-          }
+      if (authProvider === 'local' && (!email || !password)) {
+         return NextResponse.json(
+            { error: 'Missing required fields' },
+            { status: 400 }
+         );
+      }
 
-          const existingUser = await User.findOne({ email });
-          if (existingUser) {
-               return NextResponse.json(
-                    {
-                         error: 'This email is already in use. Try something else.',
-                    },
-                    { status: 409 }
-               );
-          }
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+         return NextResponse.json(
+            {
+               error: 'This email is already in use. Try something else.',
+            },
+            { status: 409 }
+         );
+      }
 
-          const hashedPassword = password
-               ? await bcrypt.hash(password, 10)
-               : undefined;
+      const hashedPassword = password
+         ? await bcrypt.hash(password, 10)
+         : undefined;
 
-          const newUser = new User({
-               email,
-               password: hashedPassword,
-               oauthId,
-               authProvider,
-               profile: profile,
-               verificationHash: hashedVerificationCode,
-          });
+      const newUser = new User({
+         email,
+         password: hashedPassword,
+         name: firstName || name,
+         oauthId,
+         authProvider,
+         profile: profile,
+         verificationHash: hashedVerificationCode,
+      });
 
-          await newUser.save();
+      await newUser.save();
 
-          if (authProvider === 'local') {
-               await transporter.sendMail({
-                    ...mailOptions,
-                    to: email,
-                    subject: `Verify your DaxApp email ${email}`,
-                    html: `
+      if (authProvider === 'local') {
+         await transporter.sendMail({
+            ...mailOptions,
+            to: email,
+            subject: `Clam email verification`,
+            html: `
      <table style=" background-color: #5D1EC2;font-family: Arial, sans-serif; border-radius: 10px; max-width: 400px; margin: 10px auto; padding: 50px 30px; ">
       <tr>
         <td align="center" style="padding: 0px;">
-          <img src="https:
+          <img src="https://res.cloudinary.com/dycw73vuy/image/upload/v1729863759/Logo_1_apiq75.png" style="width: 200px;"/>
         </td>
       </tr>
       <tr>
         <td style="border-top: 1px solid #ffffff; padding: 50px 15px; box-sizing: border-box; color: #ffffff;">
-          <p style="margin: 0; padding-bottom: 10px;">Hello!</p>
+          <p style="margin: 0; padding-bottom: 10px;">Hello ${firstName},</p>
           <p style="font-size: 14px; font-weight: 300; line-height: 20px; margin: 0 0 20px 0;">
             Thanks for signing up with Clam! Before you get started with the  Clam experience, we need you to confirm your email address. Please copy this number below to complete your signup.
           </p>
@@ -91,31 +94,31 @@ export async function POST(req: NextRequest) {
       </tr>
     </table>
         `,
-               });
-          }
+         });
+      }
 
-          let token;
-          if (authProvider === 'google' && JWT_SECRET) {
-               token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
-                    expiresIn: '1y',
-               });
-          }
-          console.log('token', token);
-          return NextResponse.json(
-               {
-                    message:
-                         authProvider === 'local'
-                              ? 'User created successfully. Please verify your email.'
-                              : 'Google user created successfully.',
-                    email: email,
-                    token: token,
-               },
-               { status: 201 }
-          );
-     } catch (error) {
-          return NextResponse.json(
-               { error: 'An error occurred during sign up' },
-               { status: 500 }
-          );
-     }
+      let token;
+      if (authProvider === 'google' && JWT_SECRET) {
+         token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
+            expiresIn: '1y',
+         });
+      }
+      console.log('token', token);
+      return NextResponse.json(
+         {
+            message:
+               authProvider === 'local'
+                  ? 'User created successfully. Please verify your email.'
+                  : 'Google user created successfully.',
+            email: email,
+            token: token,
+         },
+         { status: 201 }
+      );
+   } catch (error) {
+      return NextResponse.json(
+         { error: 'An error occurred during sign up' },
+         { status: 500 }
+      );
+   }
 }

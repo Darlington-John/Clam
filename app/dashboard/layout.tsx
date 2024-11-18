@@ -1,12 +1,12 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import Header from './components/header';
-import Sidebar from './components/sidebar';
 import { useEffect } from 'react';
 import { useUser } from '../context/auth-context';
 import Image from 'next/image';
 import loadingGif from '~/public/images/load-purple.svg';
 import Overlay from './components/overlay';
+import Header from './components/header/header';
+import Sidebar from './components/sidebar/sidebar';
 export default function RootLayout({
    children,
 }: Readonly<{

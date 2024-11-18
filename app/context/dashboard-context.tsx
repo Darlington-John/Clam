@@ -7,6 +7,7 @@ import React, {
    useRef,
 } from 'react';
 import { useUser } from './auth-context';
+import { usePopup } from '~/utils/tooggle-popups';
 
 const DashboardContext = createContext<any>(null);
 
@@ -35,9 +36,32 @@ export const DashboardProvider = ({
       });
       return entriesWithBook;
    }, [user]);
+   const {
+      isVisible: isNewBookVisible,
+      isActive: newBook,
+      ref: newBookRef,
+      togglePopup: toggleNewBookPopup,
+   } = usePopup();
+
    const providerValue = useMemo(
-      () => ({ isOverlayOpen, setIsOverlayOpen, allUserEntries }),
-      [isOverlayOpen, setIsOverlayOpen, allUserEntries]
+      () => ({
+         isOverlayOpen,
+         setIsOverlayOpen,
+         allUserEntries,
+         isNewBookVisible,
+         newBook,
+         newBookRef,
+         toggleNewBookPopup,
+      }),
+      [
+         isOverlayOpen,
+         setIsOverlayOpen,
+         allUserEntries,
+         isNewBookVisible,
+         newBook,
+         newBookRef,
+         toggleNewBookPopup,
+      ]
    );
 
    return (

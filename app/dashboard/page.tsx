@@ -2,9 +2,9 @@
 import { useRouter } from 'next/navigation';
 
 import { useEffect } from 'react';
-import CashFlow from './components/cash-flow';
 import AddEntry from './components/add-entry';
 import Transactions from './components/transactions';
+import CashFlow from './components/cashflow/cashflow';
 
 const Dashboard = () => {
    const router = useRouter();
@@ -20,8 +20,6 @@ const Dashboard = () => {
    return (
       <div className="bg-lightestGrey  h-full  w-full   flex  flex-col gap-4  ">
          <CashFlow />
-         {/* {loading ? 'loading' : user?.email}
-            <UserInfo /> */}
          <AddEntry />
          <Transactions />
       </div>

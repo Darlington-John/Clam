@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import Sidebar from './sidebar';
+import Sidebar from './sidebar/sidebar';
 const Overlay = () => {
    const ref = useRef<any>(null);
    const toggleOverlay = () => {

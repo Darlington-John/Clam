@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import cash from '~/public/icons/cash.svg';
 import dotedLine from '~/public/images/dottedLine.png';
@@ -12,7 +11,6 @@ import Fuse from 'fuse.js';
 import { useUser } from '~/app/context/auth-context';
 import { usePopup } from '~/utils/tooggle-popups';
 import close from '~/public/icons/xframe.png';
-import loading from '~/public/images/load.svg';
 import check from '~/public/icons/check.svg';
 
 const Filters = (props: any) => {
@@ -117,7 +115,7 @@ const Filters = (props: any) => {
    return (
       filterEntry && (
          <div
-            className={`h-auto   w-[320px] z-10 p-4 duration-300 ease shrink-0 flex flex-col gap-4 p-6 rounded-lg bg-white border border-lightGreyBorder shadow-custom absolute -top-[150px] left-10 ${
+            className={`h-auto   w-[320px] z-[50] p-4 duration-300 ease shrink-0 flex flex-col gap-4 p-6 rounded-lg bg-white border border-lightGreyBorder shadow-custom absolute -top-[150px] left-10 sm:top-1/2  sm:left-1/2 sm:transform sm:fixed  sm:-translate-x-1/2  sm:-translate-y-1/2    ${
                isFilterEntryVisible ? 'opacity-100' : 'opacity-0'
             }`}
             ref={filterEntryRef}

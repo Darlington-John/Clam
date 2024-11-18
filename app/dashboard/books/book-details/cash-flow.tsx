@@ -103,7 +103,6 @@ const BookCashFlow = (props: any) => {
                      </button>
                   ) : (
                      <Image
-                        //     src={pencil}
                         src={
                            editDescription && bookData?.description
                               ? closeIcon
@@ -144,21 +143,6 @@ const BookCashFlow = (props: any) => {
                   style={{ overflow: 'hidden' }}
                />
             )}
-
-            {/* {editDescription ? (
-               <textarea
-                  placeholder="Add a description"
-                  className="text-sm     w-full h-full outline-none resize-none"
-                  value={description}
-                  onChange={(e) => {
-                     setDescription(e.target.value);
-                     setAddDescriptionError('');
-                  }}
-                  style={{ overflow: 'hidden' }}
-               />
-            ) : (
-               <p className="text-sm text-grey">{bookData?.description}</p>
-            )} */}
          </div>
       </section>
    );

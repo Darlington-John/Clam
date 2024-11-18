@@ -142,7 +142,7 @@ const EntryPopup = (props: any) => {
                      />
                      {tag && (
                         <div
-                           className={`w-full        duration-300 ease-in-out flex flex-col py-1  px-2   gap-1  bg-white  absolute  top-12   z-40  opacity-100  shadow-custom  h-[200px] overflow-auto  flow rounded-lg  ${
+                           className={`w-full        duration-300 ease-in-out flex flex-col py-1  px-2   gap-1  bg-white  absolute  top-12   z-40  opacity-100  shadow-custom  h-[200px] overflow-auto  flow rounded-lg   sm:h-auto ${
                               isTagVisible ? '' : ' opacity-0'
                            }`}
                            ref={tagRef}

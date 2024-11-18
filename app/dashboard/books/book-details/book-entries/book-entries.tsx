@@ -1,22 +1,21 @@
 'use client';
-
-import empty from '~/public/images/empty.svg';
 import Image from 'next/image';
-import plus from '~/public/icons/plus-circle-white.svg';
-import more from '~/public/icons/dots-horizontal.svg';
 import searchIcon from '~/public/icons/search.svg';
 import loadingGif from '~/public/images/load-purple.svg';
-import dotedLine from '~/public/images/dottedLine.png';
 import { usePopup } from '~/utils/tooggle-popups';
 import Fuse from 'fuse.js';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import filterIcon from '~/public/icons/filter.svg';
 import { useUser } from '~/app/context/auth-context';
 import Pagination from '../pagination';
 import Entries from './entries';
 import Filters from './filters';
 import badge from '~/public/icons/Badge-red.png';
+import EntriesHeader from './entries-header';
+import NoEntries from './no-entries';
+import AddPrintEntry from './print-add-entries';
 const BookEntries = (props: any) => {
+   const { user } = useUser();
    const {
       bookData,
       toggleAddEntryPopup,
@@ -25,7 +24,8 @@ const BookEntries = (props: any) => {
       handleDeleteEntry,
       targetHeight,
    } = props;
-   const { user } = useUser();
+   const entriesProps = { handleDeleteEntry, bookData };
+
    const getEntriesByBookId = (bookId: string) => {
       if (!user || !user.books) return [];
       const book = user.books.find((book: any) => book._id === bookId);
@@ -85,6 +85,7 @@ const BookEntries = (props: any) => {
       ref: filterEntryRef,
       togglePopup: toggleFilterEntryPopup,
    } = usePopup();
+
    const [minAmountValue, setMinAmountValue] = useState('');
    const [maxAmountValue, setMaxAmountValue] = useState('');
    const [minDateValue, setMinDateValue] = useState('');
@@ -242,7 +243,10 @@ const BookEntries = (props: any) => {
       handleClearFilters,
       setSearchTerm,
    };
-
+   const AddPrintEntryProps = {
+      toggleAddEntryPopup,
+      bookData,
+   };
    return (
       <section className="flex  items-start gap-4  flex-col  ">
          <div className="flex items-center justify-between w-full ">
@@ -307,17 +311,7 @@ const BookEntries = (props: any) => {
                   </div>
                )}
             </div>
-
-            <div className="flex items-center gap-4">
-               <button
-                  className="bg-purple text-white px-4 py-2 rounded-full text-sm flex gap-2 items-center"
-                  onClick={toggleAddEntryPopup}
-               >
-                  <Image src={plus} className="w-5 h-5" alt="" />
-                  <span>Add entry</span>
-               </button>
-               <Image src={more} className="w-5 h-5" alt="" />
-            </div>
+            <AddPrintEntry {...AddPrintEntryProps} />
          </div>
          {isLoading ? (
             <div className="flex items-center justify-center h-[440px]  w-full">
@@ -336,20 +330,7 @@ const BookEntries = (props: any) => {
                      </h1>
                   ) : (
                      <div className="flex flex-col  w-full md:overflow-x-auto  md:overflow-y-hidden ">
-                        <div className="flex items-center w-full  h-[40px] bg-lightGrey border  border-lightGreyBorder rounded-t-lg md:w-[760px]">
-                           <div className="w-[10%] h-full text-start  flex items-center  px-3  xl:w-[20%] ">
-                              <h1 className="text-sm ">Amount ($)</h1>
-                           </div>
-                           <div className="w-[12%] h-full text-start  flex items-center  px-3  xl:w-[25%] ">
-                              <h1 className="text-sm ">Date</h1>
-                           </div>
-                           <div className="w-[10%] h-full text-start  flex items-center  px-3   xl:w-[20%]">
-                              <h1 className="text-sm ">Tag</h1>
-                           </div>
-                           <div className="w-[63%] h-full text-start  flex items-center  px-3  xl:w-[35%] ">
-                              <h1 className="text-sm ">Note</h1>
-                           </div>
-                        </div>
+                        <EntriesHeader />
                         {filteredEntries?.map((entry: any, index: number) => (
                            <Entries
                               {...entry}
@@ -366,20 +347,7 @@ const BookEntries = (props: any) => {
                   <>
                      {bookData?.entries.length > 0 ? (
                         <div className="flex flex-col  w-full md:overflow-x-auto  md:overflow-y-hidden ">
-                           <div className="flex items-center w-full  h-[40px] bg-lightGrey border  border-lightGreyBorder rounded-t-lg md:w-[760px]">
-                              <div className="w-[10%] h-full text-start  flex items-center  px-3  xl:w-[20%] ">
-                                 <h1 className="text-sm ">Amount ($)</h1>
-                              </div>
-                              <div className="w-[12%] h-full text-start  flex items-center  px-3  xl:w-[25%] ">
-                                 <h1 className="text-sm ">Date</h1>
-                              </div>
-                              <div className="w-[10%] h-full text-start  flex items-center  px-3   xl:w-[20%]">
-                                 <h1 className="text-sm ">Tag</h1>
-                              </div>
-                              <div className="w-[63%] h-full text-start  flex items-center  px-3  xl:w-[35%] ">
-                                 <h1 className="text-sm ">Note</h1>
-                              </div>
-                           </div>
+                           <EntriesHeader />
                            {bookData?.entries.map(
                               (entry: any, index: number) => (
                                  <Entries
@@ -394,21 +362,7 @@ const BookEntries = (props: any) => {
                            )}
                         </div>
                      ) : (
-                        <div
-                           className="flex items-center gap-4 w-full  rounded-lg border border-[#DFDDE3] p-4 justify-center min-h-[320px]"
-                           style={{ height: `${targetHeight}px` }}
-                        >
-                           <div className="flex items-center gap-3 flex-col">
-                              <Image src={empty} alt="" className="w-20 h-20" />
-                              <h1 className="text-[17px] sm:text-base text-black">
-                                 No entries yet
-                              </h1>
-                              <p className="text-sm text-grey leading-[20px] text-center">
-                                 Your most recent entries <br />
-                                 will show up here.
-                              </p>
-                           </div>
-                        </div>
+                        <NoEntries targetHeight={targetHeight} />
                      )}
                   </>
                ) : (
@@ -420,27 +374,14 @@ const BookEntries = (props: any) => {
                         </h1>
                      ) : (
                         <div className="flex flex-col  w-full md:overflow-x-auto  md:overflow-y-hidden ">
-                           <div className="flex items-center w-full  h-[40px] bg-lightGrey border  border-lightGreyBorder rounded-t-lg md:w-[760px]">
-                              <div className="w-[10%] h-full text-start  flex items-center  px-3  xl:w-[20%] ">
-                                 <h1 className="text-sm ">Amount ($)</h1>
-                              </div>
-                              <div className="w-[12%] h-full text-start  flex items-center  px-3  xl:w-[25%] ">
-                                 <h1 className="text-sm ">Date</h1>
-                              </div>
-                              <div className="w-[10%] h-full text-start  flex items-center  px-3   xl:w-[20%]">
-                                 <h1 className="text-sm ">Tag</h1>
-                              </div>
-                              <div className="w-[63%] h-full text-start  flex items-center  px-3  xl:w-[35%] ">
-                                 <h1 className="text-sm ">Note</h1>
-                              </div>
-                           </div>
+                           <EntriesHeader />
                            {searchedEntries?.map(
                               (entry: any, index: number) => (
                                  <Entries
                                     {...entry}
                                     entry={entry}
                                     index={index}
-                                    handleDeleteEntry={handleDeleteEntry}
+                                    {...entriesProps}
                                     bookData={searchedEntries}
                                     key={index + 1}
                                  />

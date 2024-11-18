@@ -7,42 +7,17 @@ import line from '~/public/images/line.png';
 import info from '~/public/icons/information-circle.svg';
 import wave from '~/public/icons/wave.svg';
 import badgeGreen from '~/public/icons/Badge.svg';
-import {
-   LineChart,
-   Line,
-   XAxis,
-   YAxis,
-   CartesianGrid,
-   Tooltip,
-   Legend,
-   ResponsiveContainer,
-} from 'recharts';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formattedDate } from '~/utils/formattedDate';
 import { useUser } from '~/app/context/auth-context';
 import { useDashboard } from '~/app/context/dashboard-context';
+import CashGraph from './cash-graph';
 
 const CashFlow = () => {
    const { user, loading } = useUser();
    const { allUserEntries } = useDashboard();
-   const [containerWidth, setContainerWidth] = useState(0);
-   const [containerHeight, setContainerHeight] = useState(0);
-   const chartContainerRef = useRef<HTMLDivElement>(null);
 
-   useEffect(() => {
-      const updateDimensions = () => {
-         if (chartContainerRef.current) {
-            setContainerWidth(chartContainerRef.current.offsetWidth);
-            setContainerHeight(chartContainerRef.current.offsetHeight);
-         }
-      };
-
-      updateDimensions();
-
-      window.addEventListener('resize', updateDimensions);
-
-      return () => window.removeEventListener('resize', updateDimensions);
-   }, []);
    const { totalIncome, totalExpense } = useMemo(() => {
       let income = 0;
       let expense = 0;
@@ -61,94 +36,6 @@ const CashFlow = () => {
       }
 
       return { totalIncome: income, totalExpense: expense };
-   }, [user]);
-   const chartData = useMemo(() => {
-      const dataMap: Record<
-         string,
-         {
-            key: string;
-            week: string;
-            day: string;
-            income: number;
-            expense: number;
-         }
-      > = {};
-
-      let firstEntryDate: Date | null = null;
-
-      if (user && user.books) {
-         user.books.forEach((book: any) => {
-            book.entries.forEach((entry: any) => {
-               const entryDate = new Date(entry.createdAt);
-               if (!firstEntryDate || entryDate < firstEntryDate) {
-                  firstEntryDate = entryDate;
-               }
-            });
-         });
-      }
-
-      if (firstEntryDate) {
-         user.books.forEach((book: any) => {
-            book.entries.forEach((entry: any) => {
-               const entryDate = new Date(entry.createdAt);
-
-               if (firstEntryDate) {
-                  const daysSinceFirstEntry = Math.floor(
-                     (entryDate.getTime() - firstEntryDate.getTime()) /
-                        (1000 * 60 * 60 * 24)
-                  );
-
-                  const weekNumber = Math.floor(daysSinceFirstEntry / 7) + 1;
-
-                  const dayOfWeek = entryDate.toLocaleString('en-US', {
-                     weekday: 'long',
-                  });
-
-                  const key = `Wk ${weekNumber} - ${dayOfWeek}`;
-
-                  if (!dataMap[key]) {
-                     dataMap[key] = {
-                        key,
-                        week: `Week ${weekNumber}`,
-                        day: dayOfWeek,
-                        income: 0,
-                        expense: 0,
-                     };
-                  }
-
-                  if (entry.income) {
-                     dataMap[key].income += parseFloat(entry.amount);
-                  }
-
-                  if (entry.expense) {
-                     dataMap[key].expense += parseFloat(entry.amount);
-                  }
-               }
-            });
-         });
-      }
-
-      const sortedData = Object.values(dataMap).sort((a, b) => {
-         const daysOrder = [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-         ];
-         const weekOrderA = parseInt(a.week.split(' ')[1]);
-         const weekOrderB = parseInt(b.week.split(' ')[1]);
-
-         if (weekOrderA === weekOrderB) {
-            return daysOrder.indexOf(a.day) - daysOrder.indexOf(b.day);
-         }
-
-         return weekOrderA - weekOrderB;
-      });
-
-      return sortedData;
    }, [user]);
 
    return (
@@ -230,71 +117,8 @@ const CashFlow = () => {
             </div>
          </section>
          <section className="w-full  flex gap-4  md:flex-col ">
-            <section
-               ref={chartContainerRef}
-               className="flex bg-white rounded-2xl relative shrink-0 w-[73%] h-[280px]  lg:h-auto md:w-full xs:flex-col "
-            >
-               <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                     width={containerWidth || 500}
-                     height={containerHeight || 280}
-                     data={chartData}
-                     margin={{
-                        top: 24,
-                        right: 42,
-                        left: 12,
-                        bottom: 14,
-                     }}
-                  >
-                     <CartesianGrid
-                        horizontal={true}
-                        vertical={false}
-                        strokeDasharray="0"
-                     />
-                     <XAxis
-                        dataKey="key"
-                        tick={{ fill: '#8D8896', fontSize: 12 }}
-                        tickLine={false}
-                        axisLine={{ stroke: '#00000000' }}
-                     />
-                     <YAxis
-                        tick={{ fill: '#8D8896', fontSize: 12 }}
-                        tickLine={false}
-                        axisLine={{ stroke: '#00000000' }}
-                     />
-                     <Tooltip />
+            <CashGraph />
 
-                     <Line
-                        type="linear"
-                        dataKey="income"
-                        stroke="#00AD8E"
-                        dot={false}
-                        name="Income"
-                        filter="url(#glow)"
-                     />
-                     <Line
-                        type="linear"
-                        dataKey="expense"
-                        stroke="#F00"
-                        dot={false}
-                        name="Expense"
-                        filter="url(#glow)"
-                     />
-                     <defs>
-                        <filter id="glow">
-                           <feGaussianBlur
-                              stdDeviation="2"
-                              result="coloredBlur"
-                           />
-                           <feMerge>
-                              <feMergeNode in="coloredBlur" />
-                              <feMergeNode in="SourceGraphic" />
-                           </feMerge>
-                        </filter>
-                     </defs>
-                  </LineChart>
-               </ResponsiveContainer>
-            </section>
             <div className="flex shrink-0  rounded-2xl   w-[25%] flex-col gap-3 items-start  xl:gap-2 md:w-auto    lg:justify-between    ">
                <div className="flex flex-col gap-4 w-full  bg-white p-6  rounded-2xl xl:gap-2 lg:p-4">
                   <div className="flex gap-2 py-2 px-3   items-start bg-lightGreen border border-lightAqua rounded-lg p-2  lg:py-1 lg:gap-1">

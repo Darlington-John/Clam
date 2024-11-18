@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { FaCheck } from 'react-icons/fa';
+import { useDashboard } from '~/app/context/dashboard-context';
 const AddEntry = () => {
    const { user } = useUser();
    const {
@@ -22,12 +23,8 @@ const AddEntry = () => {
       ref: newEntryRef,
       togglePopup: toggleNewEntryPopup,
    } = usePopup();
-   const {
-      isVisible: isNewBookVisible,
-      isActive: newBook,
-      ref: newBookRef,
-      togglePopup: toggleNewBookPopup,
-   } = usePopup();
+   const { isNewBookVisible, newBook, newBookRef, toggleNewBookPopup } =
+      useDashboard();
    const [error, setError] = useState('');
    const [bookName, setBookName] = useState('');
    const [isCreating, setIsCreating] = useState(false);

@@ -12,7 +12,7 @@ import EntryPopup from '../book-details/entry-popup';
 import bookIcon from '~/public/icons/book-open-.svg';
 import rightIcon from '~/public/icons/chevron-right.svg';
 import BookEntries from '../book-details/book-entries/book-entries';
-import checkIcon from '~/public/icons/check.svg';
+import { generatePDF } from '~/utils/generate-pdf';
 const BookPage = () => {
    const { user } = useUser();
    const { bookId } = useParams();
@@ -373,10 +373,17 @@ const BookPage = () => {
       isLoading,
       handleDeleteEntry,
       targetHeight,
+      inputWidth,
+      spanRef,
+      generatePDF,
    };
-
    return (
       <div className="h-auto w-full px-6 flex flex-col gap-4 pb-5 ">
+         {/* <iframe
+            id="pdf-preview"
+            style={{ width: '100%', height: '500px' }}
+         ></iframe> */}
+
          <div className="flex items-center justify-between w-full hidden sm:flex bg-white py-2 px-4 rounded-[8px]">
             <div className="flex items-center gap-2">
                <Image src={bookIcon} className="w-5 h-5" alt="Book Icon" />
