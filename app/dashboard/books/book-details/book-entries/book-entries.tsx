@@ -8,16 +8,17 @@ import { useState } from 'react';
 import filterIcon from '~/public/icons/filter.svg';
 import { useUser } from '~/app/context/auth-context';
 import Pagination from '../pagination';
-import Entries from './entries';
 import Filters from './filters';
 import badge from '~/public/icons/Badge-red.png';
 import EntriesHeader from './entries-header';
 import NoEntries from './no-entries';
 import AddPrintEntry from './print-add-entries';
+import Entries from './entries/entries';
 const BookEntries = (props: any) => {
    const { user } = useUser();
    const {
       bookData,
+      allBookData,
       toggleAddEntryPopup,
       paginationProps,
       isLoading,
@@ -245,17 +246,17 @@ const BookEntries = (props: any) => {
    };
    const AddPrintEntryProps = {
       toggleAddEntryPopup,
-      bookData,
+      allBookData,
    };
    return (
       <section className="flex  items-start gap-4  flex-col  ">
-         <div className="flex items-center justify-between w-full ">
-            <div className="flex items-center gap-2">
+         <div className="flex items-center justify-between w-full sm:flex-col gap-3 ">
+            <div className="flex items-center gap-2 sm:w-full  sm:order-2">
                <h1 className="text-[22px] text-black  fancy shrink-0">
                   Your entries
                </h1>
                <div
-                  className="relative  flex items-center justify-center h-[32px] "
+                  className="relative  flex items-center justify-center h-[32px]  dxs:w-full "
                   ref={searchRef}
                >
                   {searchTerm.trim() !== '' && (
@@ -277,10 +278,10 @@ const BookEntries = (props: any) => {
                   />
                   {search && (
                      <input
-                        className={`h-[32px] py-1    bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-1   ring-purple outline-none    line-clamp-1 duration-300 ease    ${
+                        className={`h-[32px] py-1    bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-1   ring-purple outline-none    line-clamp-1 duration-300 ease dxs:w-full  dxs   ${
                            isSearchVisible
-                              ? 'opacity-100   pl-9 w-[290px]'
-                              : 'opacity-0 w-[0px] '
+                              ? 'opacity-100   pl-9 w-[290px]  '
+                              : 'opacity-0 w-[0px]  '
                         } `}
                         value={searchTerm}
                         onChange={handleChange}

@@ -495,7 +495,7 @@ interface FilterProps {
    type?: string;
 }
 
-const AmountFilter: React.FC<FilterProps> = ({
+export const AmountFilter: React.FC<FilterProps> = ({
    minValue,
    setMinValue,
    maxValue,

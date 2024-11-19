@@ -73,11 +73,16 @@ input:-webkit-autofill:active {
    overflow: hidden !important;
    --toastify-toast-width: auto;
    --toastify-toast-min-height: 40px;
+   --toastify-toast-max-height: auto;
    padding: 0px 10px 0px 10px !important;
    text-align: center !important;
    color: #fff !important;
+   width: auto !important;
 }
-
+.Toastify__toast-body > div:last-child {
+   flex-shrink: 0 !important;
+   text-wrap: nowrap !important;
+}
 .Toastify__toast--success {
    background-color: #00a600 !important;
 }

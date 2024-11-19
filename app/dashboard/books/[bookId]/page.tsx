@@ -13,10 +13,16 @@ import bookIcon from '~/public/icons/book-open-.svg';
 import rightIcon from '~/public/icons/chevron-right.svg';
 import BookEntries from '../book-details/book-entries/book-entries';
 import { generatePDF } from '~/utils/generate-pdf';
+
+import { generateImage } from '~/utils/generate-image';
+import { formatDate } from '~/utils/formattedDate';
+import PDFTemplate from '../../components/pdf-template';
+
 const BookPage = () => {
    const { user } = useUser();
    const { bookId } = useParams();
    const [bookData, setBookData] = useState<any>(null);
+   const [allBookData, setAllBookData] = useState<any>(null);
    const [isLoading, setIsLoading] = useState(false);
    const [currentPage, setCurrentPage] = useState(1);
    const [totalEntries, setTotalEntries] = useState(0);
@@ -129,6 +135,30 @@ const BookPage = () => {
          window.removeEventListener('entryUpdated', handleEntryCreated);
       };
    }, [bookId, currentPage, entriesLimit]);
+   useEffect(() => {
+      const fetchAllBookData = async () => {
+         try {
+            const res = await fetch(`/api/books/${bookId}`);
+            if (res.ok) {
+               const data = await res.json();
+               setAllBookData(data.book);
+            } else {
+               console.error('Error fetching all  book data');
+            }
+         } catch (error) {
+            console.error('Error during fetching:', error);
+         }
+      };
+      fetchAllBookData();
+      const handleEntryCreated = () => {
+         fetchAllBookData();
+      };
+      window.addEventListener('entryUpdated', handleEntryCreated);
+
+      return () => {
+         window.removeEventListener('entryUpdated', handleEntryCreated);
+      };
+   }, [bookId]);
    useEffect(() => {
       if (spanRef.current) {
          const newWidth = amount ? spanRef.current.offsetWidth : 170;
@@ -368,6 +398,7 @@ const BookPage = () => {
 
    const bookEntriesProps = {
       bookData,
+      allBookData,
       toggleAddEntryPopup,
       paginationProps,
       isLoading,
@@ -377,8 +408,14 @@ const BookPage = () => {
       spanRef,
       generatePDF,
    };
+   const templateProps = {
+      bookData: allBookData,
+   };
    return (
       <div className="h-auto w-full px-6 flex flex-col gap-4 pb-5 ">
+         <div className="fixed top-[100%]">
+            <PDFTemplate {...templateProps} />
+         </div>
          {/* <iframe
             id="pdf-preview"
             style={{ width: '100%', height: '500px' }}
