@@ -2,6 +2,9 @@
 import Image from 'next/image';
 import arrowUp from '~/public/icons/arrow-circle-up.svg';
 import arrowDown from '~/public/icons/arrow-circle-down.svg';
+import arrowDownFade from '~/public/icons/arrow-circle-down-fade.svg';
+import arrowUpFade from '~/public/icons/arrow-circle-up-fade.svg';
+import infoFade from '~/public/icons/information-circle-yellow-fade.svg';
 import chevronGrey from '~/public/icons/chevron-down-grey.svg';
 import calendar from '~/public/icons/calendar.svg';
 import line from '~/public/images/line.png';
@@ -10,8 +13,10 @@ import pencil from '~/public/icons/pencil.svg';
 import loading from '~/public/images/load.svg';
 import { formattedDate } from '~/utils/formattedDate';
 import closeIcon from '~/public/icons/close.svg';
-
+import { useUser } from '~/app/context/auth-context';
+import lineDark from '~/public/images/line-dark.png';
 const BookCashFlow = (props: any) => {
+   const { isDarkMode } = useUser();
    const {
       bookData,
       addDescription,
@@ -28,8 +33,8 @@ const BookCashFlow = (props: any) => {
 
    return (
       <section className="w-full  flex gap-4  md:flex-col ">
-         <section className="flex bg-white  rounded-2xl justify-center  items-center relative  shrink-0  w-[73%]  h-[180px] xl:h-[150px] md:h-auto md:w-full  xs:flex-col">
-            <div className="text-sm  flex gap-2 items-center  py-1 px-4  rounded-full  absolute top-2  bg-lightestGrey text-grey norm-mid  xl:px-3 xs:top-auto z-10">
+         <section className="flex bg-white  rounded-2xl justify-center  items-center relative  shrink-0  w-[73%]  h-[180px] xl:h-[150px] md:h-auto md:w-full  xs:flex-col dark:bg-dark-grey">
+            <div className="text-sm  flex gap-2 items-center  py-1 px-4  rounded-full  absolute top-2  bg-lightestGrey text-grey norm-mid  xl:px-3 xs:top-auto z-10   dark:bg-dark-lightGrey dark:text-dark-dimGrey">
                <Image
                   src={calendar}
                   className="w-4  h-4  object-cover rounded-full "
@@ -43,15 +48,19 @@ const BookCashFlow = (props: any) => {
                />
             </div>
             <Image
-               src={line}
+               src={isDarkMode ? lineDark : line}
                className="h-[55px]  absolute  xs:rotate-90 xs:h-full  xs:w-[5px]  object-cover xs:hidden "
                alt=""
             />
-            <div className="w-full absolute hidden xs:flex bg-lightestGrey  p-[2px] "></div>
+            <div className="w-full absolute hidden xs:flex bg-lightestGrey  p-[2px]   "></div>
             <div className="flex-1 flex   py-6 px-8  flex-col items-center gap-4 xl:py-3 xl:px-4  xs:w-full  xs:py-6 xs:gap-2">
-               <div className="flex flex-col gap-1">
+               <div className="flex flex-col gap-1 dark:text-white">
                   <div className="flex gap-2  items-center">
-                     <Image className="w-5 h-5" src={arrowDown} alt="" />
+                     <Image
+                        className="w-5 h-5"
+                        src={isDarkMode ? arrowDownFade : arrowDown}
+                        alt=""
+                     />
                      <span className="text-[22px] leading-none  fancy xl:text-lg sm:text-base">
                         INCOME
                      </span>
@@ -60,15 +69,23 @@ const BookCashFlow = (props: any) => {
                      ${incomeTotal}
                   </h1>
                </div>
-               <button className="bg-yellow py-1 px-2 text-darkYellow text-sm rounded-full flex items-center gap-1 ">
+               <button className="bg-yellow py-1 px-2 text-darkYellow text-sm rounded-full flex items-center gap-1  dark:text-dark-lightYellow dark:bg-dark-darkYellow">
                   <span>No change from last month</span>
-                  <Image src={info} alt="" className="w-4 h-4" />
+                  {isDarkMode ? (
+                     <Image src={infoFade} alt="" className="w-4 h-4" />
+                  ) : (
+                     <Image src={info} alt="" className="w-4 h-4" />
+                  )}
                </button>
             </div>
             <div className="flex-1 flex   py-6 px-8  flex-col items-center gap-4 xl:py-3 xl:px-4 xs:w-full  xs:py-6 xs:gap-2">
-               <div className="flex flex-col gap-1">
+               <div className="flex flex-col gap-1 dark:text-white">
                   <div className="flex gap-2  items-center">
-                     <Image className="w-5 h-5" src={arrowUp} alt="" />
+                     <Image
+                        className="w-5 h-5"
+                        src={isDarkMode ? arrowUpFade : arrowUp}
+                        alt=""
+                     />
                      <span className="text-[22px] leading-none  fancy xl:text-lg sm:text-sm">
                         EXPENSE
                      </span>
@@ -77,15 +94,19 @@ const BookCashFlow = (props: any) => {
                      ${expenseTotal}
                   </h1>
                </div>
-               <button className="bg-yellow py-1 px-2 text-darkYellow text-sm rounded-full flex items-center gap-1 ">
+               <button className="bg-yellow py-1 px-2 text-darkYellow text-sm rounded-full flex items-center gap-1  dark:text-dark-lightYellow dark:bg-dark-darkYellow">
                   <span>No change from last month</span>
-                  <Image src={info} alt="" className="w-4 h-4" />
+                  {isDarkMode ? (
+                     <Image src={infoFade} alt="" className="w-4 h-4" />
+                  ) : (
+                     <Image src={info} alt="" className="w-4 h-4" />
+                  )}
                </button>
             </div>
          </section>
-         <div className="flex shrink-0 bg-white rounded-2xl p-4  w-[25%] flex-col gap-2 items-start xl:p-3 xl:gap-1 md:w-auto">
+         <div className="flex shrink-0 bg-white rounded-2xl p-4  w-[25%] flex-col gap-2 items-start xl:p-3 xl:gap-1 md:w-auto  dark:bg-dark-grey">
             <div className="flex items-center justify-between  w-full">
-               <h1 className="text-[17px] text-black fancy ">
+               <h1 className="text-[17px] text-black fancy dark:text-white ">
                   {bookData?.name}
                </h1>
                <div className="flex">
@@ -121,7 +142,7 @@ const BookCashFlow = (props: any) => {
             {editDescription ? (
                <textarea
                   placeholder="Add a description"
-                  className="text-sm     w-full h-full outline-none resize-none"
+                  className="text-sm     w-full h-full outline-none resize-none dark:text-white dark:bg-dark-grey"
                   value={description}
                   onChange={(e) => {
                      setDescription(e.target.value);
@@ -134,7 +155,7 @@ const BookCashFlow = (props: any) => {
             ) : (
                <textarea
                   placeholder="Add a description"
-                  className="text-sm     w-full h-full outline-none resize-none"
+                  className="text-sm     w-full h-full outline-none resize-none dark:text-white dark:bg-dark-grey"
                   value={description}
                   onChange={(e) => {
                      setDescription(e.target.value);

@@ -18,7 +18,7 @@ const Dashboard = () => {
       }
    }, [router]);
    return (
-      <div className="bg-lightestGrey  h-full  w-full   flex  flex-col gap-4  ">
+      <div className="bg-lightestGrey  h-full  w-full   flex  flex-col gap-4   dark:bg-dark-darkPurple ">
          <CashFlow />
          <AddEntry />
          <Transactions />

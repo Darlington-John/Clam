@@ -91,9 +91,9 @@ const SidebarCard = (props: any) => {
       <div className="relative flex  items-center">
          <Link
             href={`/dashboard/books/${props.book._id}`}
-            className={`  rounded-lg py-2 pl-3 pr-5  text-[22px] fancy flex items-center  gap-2  w-full xl:text-xl relative   ${
+            className={`  rounded-lg py-2 pl-3 pr-5  text-[22px] fancy flex items-center  gap-2  w-full xl:text-xl relative dark:text-white   ${
                linkname === `/dashboard/books/${props.book._id}` &&
-               ' bg-[#F1F1F4]'
+               ' bg-[#F1F1F4] dark:bg-dark-lightGrey '
             }`}
             key={props.book._id}
          >

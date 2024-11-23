@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import cash from '~/public/icons/cash.svg';
 import dotedLine from '~/public/images/dottedLine.png';
 import arrowDown from '~/public/icons/chevron-down.svg';
+import arrowDownWhite from '~/public/icons/chevron-down-white.svg';
+import searchFade from '~/public/icons/search.svg';
 import calendar from '~/public/icons/calendar.svg';
 import search from '~/public/icons/search-black.svg';
 import tagIcon from '~/public/icons/tag.svg';
@@ -43,7 +45,7 @@ const Filters = (props: any) => {
       setSearchTerm: parentSearchTerm,
    } = props;
    const [activeIndices, setActiveIndices] = useState<number[]>([]);
-   const { user } = useUser();
+   const { user, isDarkMode } = useUser();
    const handleItemClick = (index: number) => {
       setActiveIndices((prevIndices) =>
          prevIndices.includes(index)
@@ -115,20 +117,22 @@ const Filters = (props: any) => {
    return (
       filterEntry && (
          <div
-            className={`h-auto   w-[320px] z-[50] p-4 duration-300 ease shrink-0 flex flex-col gap-4 p-6 rounded-lg bg-white border border-lightGreyBorder shadow-custom absolute -top-[150px] left-10 sm:top-1/2  sm:left-1/2 sm:transform sm:fixed  sm:-translate-x-1/2  sm:-translate-y-1/2    ${
+            className={`h-auto   w-[320px] z-[50] p-4 duration-300 ease shrink-0 flex flex-col gap-4 p-6 rounded-lg bg-white border border-lightGreyBorder shadow-custom absolute -top-[150px] left-10 sm:top-1/2  sm:left-1/2 sm:transform sm:fixed  sm:-translate-x-1/2  sm:-translate-y-1/2 dark:bg-dark-grey dark:text-white dark:border-dark-lightGrey    ${
                isFilterEntryVisible ? 'opacity-100' : 'opacity-0'
             }`}
             ref={filterEntryRef}
          >
             <div className="flex items-center justify-between">
-               <h1 className="text-[27px] text-black fancy">Filters</h1>
+               <h1 className="text-[27px] text-black fancy dark:text-white">
+                  Filters
+               </h1>
                <button
                   onClick={() => {
                      handleClearFilters();
                      parentSearchTerm('');
                      toggleFilterEntryPopup();
                   }}
-                  className="bg-lightPurple  text-purple    h-[32px] text-sm   shrink-0  w-auto py-2 px-3 rounded-full  hover:bg-purple   hover:text-white   duration-300 flex items-center gap-2"
+                  className="bg-lightPurple  text-purple    h-[32px] text-sm   shrink-0  w-auto py-2 px-3 rounded-full  hover:bg-purple   hover:text-white   duration-300 flex items-center gap-2 dark:hover:ring ring-offset-[1px] dark:ring-purple  dark:bg-dark-purple dark:text-white  "
                >
                   Reset
                </button>
@@ -153,7 +157,7 @@ const Filters = (props: any) => {
                               checked={selectedType === 'All'}
                               onChange={handleRadioChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey "></span>
                         </label>
                         <span className="text-sm">All</span>
                      </div>
@@ -168,7 +172,7 @@ const Filters = (props: any) => {
                               checked={selectedType === 'Income'}
                               onChange={handleRadioChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">Income</span>
                      </div>
@@ -183,7 +187,7 @@ const Filters = (props: any) => {
                               checked={selectedType === 'Expense'}
                               onChange={handleRadioChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">Expense</span>
                      </div>
@@ -208,7 +212,7 @@ const Filters = (props: any) => {
                               checked={selectedUploaded === 'All'}
                               onChange={handleUploadedChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">All</span>
                      </div>
@@ -223,7 +227,7 @@ const Filters = (props: any) => {
                               checked={selectedUploaded === 'Manually'}
                               onChange={handleUploadedChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">Manually</span>
                      </div>
@@ -238,7 +242,7 @@ const Filters = (props: any) => {
                               checked={selectedUploaded === 'Via report'}
                               onChange={handleUploadedChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">Via report</span>
                      </div>
@@ -263,7 +267,7 @@ const Filters = (props: any) => {
                               checked={selectedNote === 'All'}
                               onChange={handleNoteChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">All</span>
                      </div>
@@ -278,7 +282,7 @@ const Filters = (props: any) => {
                               checked={selectedNote === 'Yes'}
                               onChange={handleNoteChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">Yes</span>
                      </div>
@@ -293,7 +297,7 @@ const Filters = (props: any) => {
                               checked={selectedNote === 'No'}
                               onChange={handleNoteChange}
                            />
-                           <span className="checkmark"></span>
+                           <span className="checkmark hover:bg-[#f2ebff] dark:bg-dark-lightGrey  dark:hover:bg-dark-dimPurple  bg-lightestGrey"></span>
                         </label>
                         <span className="text-sm">No</span>
                      </div>
@@ -337,9 +341,13 @@ const Filters = (props: any) => {
                </AccordionItem>
             </div>
             <div className="h-[32px] relative flex items-center justify-center">
-               <Image src={search} alt="" className="w-5 h-5 absolute left-2" />
+               <Image
+                  src={isDarkMode ? searchFade : search}
+                  alt=""
+                  className="w-5 h-5 absolute left-2"
+               />
                <input
-                  className={` py-1    bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-1   ring-purple outline-none    line-clamp-1 duration-300 ease h-full pl-9 w-full    `}
+                  className={` py-1    bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-1   ring-purple outline-none    line-clamp-1 duration-300 ease h-full pl-9 w-full   dark:bg-dark-darkPurple dark:border-dark-lightGrey dark:text-white dark:ring-dark-lightPurple `}
                   value={searchTerm}
                   onChange={(e) => {
                      handleChange(e);
@@ -351,14 +359,14 @@ const Filters = (props: any) => {
                />
                {searchTerm.trim() !== '' && tag && (
                   <div
-                     className={`w-full        duration-300 ease-in-out flex flex-col py-1  px-2   gap-1  bg-white  absolute  top-12   z-40    shadow-custom  h-auto  overflow-auto  flow border border-lightGrey rounded-lg    ${
+                     className={`w-full        duration-300 ease-in-out flex flex-col py-1  px-2   gap-1  bg-white  absolute  top-12   z-40    shadow-custom  h-auto  overflow-auto  flow border border-lightGrey rounded-lg dark:border-dark-lightGrey dark:bg-dark-darkPurple      ${
                         isTagVisible ? 'opacity-100' : '  opacity-0'
                      }`}
                      ref={tagRef}
                   >
                      {filteredEntries.length === 0 ? (
                         <div className="w-full  flex items-center justify-center">
-                           <span className="text-sm text-grey">
+                           <span className="text-sm text-grey dark:text-dark-dimGrey">
                               No results found for &quot;
                               {searchTerm}
                               &quot;
@@ -374,7 +382,7 @@ const Filters = (props: any) => {
                                     handleAddTag(data);
                                     setIsTagActive(false);
                                  }}
-                                 className="w-full  h-[40px]   hover:bg-lightGrey flex items-center  gap-2  duration-150 text-sm  px-2  rounded-lg  border-b border-lightGrey  shrink-0"
+                                 className="w-full  h-[40px]   hover:bg-lightGrey flex items-center  gap-2  duration-150 text-sm  px-2  rounded-lg  border-b border-lightGrey  shrink-0 dark:border-dark-lightGrey  dark:hover:bg-dark-grey"
                               >
                                  <Image
                                     src={tagIcon}
@@ -445,7 +453,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 }) => {
    const contentHeight = useRef<HTMLDivElement | null>(null);
    const [height, setHeight] = useState('0px');
-
+   const { isDarkMode } = useUser();
    useEffect(() => {
       if (isOpen && contentHeight.current) {
          setHeight(`${contentHeight.current.scrollHeight}px`);
@@ -465,7 +473,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
                <p className="text-sm">{content}</p>
             </div>
             <Image
-               src={arrowDown}
+               src={isDarkMode ? arrowDownWhite : arrowDown}
                alt=""
                className={`w-5 h-5 ease-out duration-300 ${
                   isOpen ? 'rotate-[360deg]' : ''
@@ -478,7 +486,9 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             style={{ height }}
          >
             <div className="flex flex-col py-2">
-               <h1 className="text-sm text-grey">{info}</h1>
+               <h1 className="text-sm text-grey dark:text-dark-dimGrey">
+                  {info}
+               </h1>
                {children}
             </div>
          </div>
@@ -495,7 +505,7 @@ interface FilterProps {
    type?: string;
 }
 
-export const AmountFilter: React.FC<FilterProps> = ({
+const AmountFilter: React.FC<FilterProps> = ({
    minValue,
    setMinValue,
    maxValue,
@@ -503,28 +513,36 @@ export const AmountFilter: React.FC<FilterProps> = ({
    minLabel,
    maxLabel,
    type = 'text',
-}) => (
-   <div className="flex items-center justify-between w-full">
-      <div className="flex py-2 w-[49%] gap-1 flex-col">
-         <h1 className="text-sm">{minLabel}</h1>
-         <input
-            className="h-[40px] p-1 bg-lightGrey text-black text-sm rounded-lg border border-[#DFDDE3] border-2 focus:border-purple outline-none w-full duration-300"
-            type={type}
-            placeholder="Enter value"
-            value={minValue}
-            onChange={(e) => setMinValue(e.target.value)}
-         />
+}) => {
+   const { isDarkMode } = useUser();
+   return (
+      <div className="flex items-center justify-between w-full">
+         <div className="flex py-2 w-[49%] gap-1 flex-col">
+            <h1 className="text-sm ">{minLabel}</h1>
+            <input
+               className={`h-[40px] p-1 bg-lightGrey text-black text-sm rounded-lg border border-[#DFDDE3] border-2 focus:border-purple outline-none w-full duration-300 dark:bg-dark-darkPurple  dark:border-dark-lightGrey dark:text-white  ${
+                  isDarkMode && 'dark-input'
+               }`}
+               type={type}
+               placeholder="Enter value"
+               value={minValue}
+               onChange={(e) => setMinValue(e.target.value)}
+            />
+         </div>
+         <div className="flex py-2 w-[49%] gap-1 flex-col">
+            <h1 className="text-sm">{maxLabel}</h1>
+            <input
+               className={`h-[40px] p-1 bg-lightGrey text-black text-sm rounded-lg border border-[#DFDDE3] border-2 focus:border-purple outline-none w-full duration-300 dark:bg-dark-darkPurple dark:border-dark-lightGrey dark:text-white ${
+                  isDarkMode && 'dark-input'
+               }`}
+               type={type}
+               placeholder="Enter value"
+               value={maxValue}
+               onChange={(e) => setMaxValue(e.target.value)}
+            />
+         </div>
       </div>
-      <div className="flex py-2 w-[49%] gap-1 flex-col">
-         <h1 className="text-sm">{maxLabel}</h1>
-         <input
-            className="h-[40px] p-1 bg-lightGrey text-black text-sm rounded-lg border border-[#DFDDE3] border-2 focus:border-purple outline-none w-full duration-300"
-            type={type}
-            placeholder="Enter value"
-            value={maxValue}
-            onChange={(e) => setMaxValue(e.target.value)}
-         />
-      </div>
-   </div>
-);
+   );
+};
+
 export default Filters;

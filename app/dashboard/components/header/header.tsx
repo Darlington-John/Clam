@@ -1,10 +1,13 @@
 import Image from 'next/image';
 import sparkles from '~/public/icons/sparkles.svg';
+import sparklesLight from '~/public/icons/sparkles-light.svg';
 import avatar from '~/public/images/blueMain4.png';
 import down from '~/public/icons/chevron-down.svg';
+import downWhite from '~/public/icons/chevron-down-white.svg';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import bars from '~/public/icons/menu-alt.svg';
+import barsFade from '~/public/icons/menuFade.svg';
 import { useDashboard } from '~/app/context/dashboard-context';
 import { useUser } from '~/app/context/auth-context';
 import { usePopup } from '~/utils/tooggle-popups';
@@ -14,8 +17,8 @@ import ChangePassword from './change-password';
 const Header = () => {
    const { isOverlayOpen, setIsOverlayOpen } = useDashboard();
    const linkname = usePathname();
-   const [icon, setIcon] = useState(bars);
 
+   const { isDarkMode } = useUser();
    useEffect(() => {
       const overlayElement = document.getElementById('myOverlay');
       if (!overlayElement) {
@@ -23,7 +26,6 @@ const Header = () => {
       }
       overlayElement.style.width = '0%';
       setIsOverlayOpen(false);
-      setIcon(bars);
    }, [linkname, setIsOverlayOpen]);
    const handleToggleOverlay = () => {
       toggleOverlay();
@@ -68,16 +70,16 @@ const Header = () => {
       toggleChangePasswordPopup,
    };
    return (
-      <header className="flex items-center justify-between  w-full py-3 px-6  xl:px-3 sticky top-0 bg-lightestGrey z-20 ">
+      <header className="flex items-center justify-between  w-full py-3 px-6  xl:px-3 sticky top-0 bg-lightestGrey z-20 dark:bg-dark-darkPurple   ">
          <Image
-            src={icon}
+            src={isDarkMode ? barsFade : bars}
             alt=""
             className="hidden w-6 lg:flex  "
             onClick={handleToggleOverlay}
          />
          <div className="relative">
             <div
-               className="text-sm  flex gap-2 items-center  py-1 px-2 rounded-full bg-white  "
+               className="text-sm  flex gap-2 items-center  py-1 px-2 rounded-full bg-white dark:bg-dark-grey  "
                onClick={toggleProfilePopup}
             >
                <Image
@@ -85,20 +87,37 @@ const Header = () => {
                   className="w-6 h-6 object-cover rounded-full "
                   alt=""
                />
-               <h1>{user?.name ? user.name : user?.email}</h1>
-               <Image
-                  src={down}
-                  className={`w-5 h-5 object-cover rounded-full duration-300  ${
-                     isProfileVisible && ' rotate-180'
-                  }`}
-                  alt=""
-               />
+               <h1 className="dark:text-white">
+                  {user?.name ? user.name : user?.email}
+               </h1>
+               {isDarkMode ? (
+                  <Image
+                     src={downWhite}
+                     className={`w-5 h-5 object-cover rounded-full duration-300  ${
+                        isProfileVisible && ' rotate-180'
+                     }`}
+                     alt=""
+                  />
+               ) : (
+                  <Image
+                     src={down}
+                     className={`w-5 h-5 object-cover rounded-full duration-300  ${
+                        isProfileVisible && ' rotate-180'
+                     }`}
+                     alt=""
+                  />
+               )}
             </div>
 
             <Profile {...profileDropdownProps} />
          </div>
-         <button className="flex items-center gap-2 px-3 py-2 norm-mid  text-purple xl:text-sm">
-            <Image className="" src={sparkles} alt="" />
+         <button className="flex items-center gap-2 px-3 py-2 norm-mid  text-purple xl:text-sm dark:text-dark-lightPurple">
+            {isDarkMode ? (
+               <Image className="" src={sparklesLight} alt="" />
+            ) : (
+               <Image className="" src={sparkles} alt="" />
+            )}
+
             <span className="sm:hidden">Assistant</span>
          </button>
          <ChangeName {...changeNameProps} />

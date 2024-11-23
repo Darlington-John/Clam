@@ -108,13 +108,39 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
          setLoading(true);
       };
    }, []);
+   const [isDarkMode, setIsDarkMode] = useState(false);
 
+   // Sync with localStorage on load
+   useEffect(() => {
+      const darkModePreference = localStorage.getItem('darkMode');
+      if (darkModePreference === 'true') {
+         document.documentElement.classList.add('dark');
+         setIsDarkMode(true);
+      }
+   }, []);
+
+   const handleToggle = () => {
+      const root = document.documentElement;
+
+      if (isDarkMode) {
+         root.classList.remove('dark');
+         localStorage.setItem('darkMode', 'false');
+         setIsDarkMode(false);
+      } else {
+         root.classList.add('dark');
+         localStorage.setItem('darkMode', 'true');
+         setIsDarkMode(true);
+      }
+   };
    const providerValue = useMemo(
       () => ({
          user,
          loading,
+         isDarkMode,
+         setIsDarkMode,
+         handleToggle,
       }),
-      [user, loading]
+      [user, loading, isDarkMode, setIsDarkMode, handleToggle]
    );
 
    return (

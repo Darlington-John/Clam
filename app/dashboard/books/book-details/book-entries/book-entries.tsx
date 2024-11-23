@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import searchIcon from '~/public/icons/search.svg';
 import loadingGif from '~/public/images/load-purple.svg';
+import loadingFade from '~/public/images/spinner-fade.svg';
 import { usePopup } from '~/utils/tooggle-popups';
 import Fuse from 'fuse.js';
 import { useState } from 'react';
@@ -14,8 +15,11 @@ import EntriesHeader from './entries-header';
 import NoEntries from './no-entries';
 import AddPrintEntry from './print-add-entries';
 import Entries from './entries/entries';
+import { FaCheck } from 'react-icons/fa';
+import { useParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 const BookEntries = (props: any) => {
-   const { user } = useUser();
+   const { user, isDarkMode } = useUser();
    const {
       bookData,
       allBookData,
@@ -199,6 +203,10 @@ const BookEntries = (props: any) => {
       setFilteredEntries(filteredEntries);
       toggleFilterEntryPopup();
       setSearchTerm('');
+      toast.success(`Filters applied`, {
+         icon: <FaCheck color="white" />,
+         autoClose: 1500,
+      });
    };
    const handleClearFilters = () => {
       setMinAmountValue('');
@@ -251,12 +259,12 @@ const BookEntries = (props: any) => {
    return (
       <section className="flex  items-start gap-4  flex-col  ">
          <div className="flex items-center justify-between w-full sm:flex-col gap-3 ">
-            <div className="flex items-center gap-2 sm:w-full  sm:order-2">
-               <h1 className="text-[22px] text-black  fancy shrink-0">
+            <div className="flex items-center gap-2 sm:w-full  sm:order-2  sm:justify-start">
+               <h1 className="text-[22px] text-black  fancy shrink-0  2xs:text-lg dark:text-white">
                   Your entries
                </h1>
                <div
-                  className="relative  flex items-center justify-center h-[32px]  dxs:w-full "
+                  className="relative  flex items-center justify-center h-[32px]   "
                   ref={searchRef}
                >
                   {searchTerm.trim() !== '' && (
@@ -278,9 +286,9 @@ const BookEntries = (props: any) => {
                   />
                   {search && (
                      <input
-                        className={`h-[32px] py-1    bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-1   ring-purple outline-none    line-clamp-1 duration-300 ease dxs:w-full  dxs   ${
+                        className={`h-[32px] py-1    bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-1   ring-purple outline-none    line-clamp-1 duration-300 ease dark:bg-dark-grey dark:border-dark-lightGrey dark:text-white dark:ring-dark-lightPurple    ${
                            isSearchVisible
-                              ? 'opacity-100   pl-9 w-[290px]  '
+                              ? 'opacity-100   pl-9 w-[290px] dxs:w-[250px]  2xs:w-[230px]  '
                               : 'opacity-0 w-[0px]  '
                         } `}
                         value={searchTerm}
@@ -317,7 +325,7 @@ const BookEntries = (props: any) => {
          {isLoading ? (
             <div className="flex items-center justify-center h-[440px]  w-full">
                <Image
-                  src={loadingGif}
+                  src={isDarkMode ? loadingFade : loadingGif}
                   className=" h-28  mx-auto self-center "
                   alt=""
                />

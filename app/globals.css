@@ -149,14 +149,12 @@ input:-webkit-autofill:active {
    left: 0;
    height: 20px;
    width: 20px;
-   background-color: #f1f1f4;
+   /* background-color: #f1f1f4; */
    border-radius: 50%;
 }
-
-.radio:hover input ~ .checkmark {
-   background-color: #f2ebff;
+.dark-input {
+   color-scheme: dark;
 }
-
 .radio input:checked ~ .checkmark {
    background-color: #5d1ec2;
 }

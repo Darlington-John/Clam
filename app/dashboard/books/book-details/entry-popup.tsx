@@ -6,10 +6,15 @@ import load from '~/public/images/load.svg';
 
 import income from '~/public/icons/arrow-circle-down.svg';
 import expense from '~/public/icons/arrow-circle-up.svg';
+import incomeFade from '~/public/icons/arrow-circle-down-fade.svg';
+import expenseFade from '~/public/icons/arrow-circle-up-fade.svg';
 import plusGrey from '~/public/icons/plus-circle-grey.svg';
 import tagIcon from '~/public/icons/tag.svg';
 import danger from '~/public/icons/exclamation.svg';
+import dangerFade from '~/public/icons/exclamation-fade.svg';
+import { useUser } from '~/app/context/auth-context';
 const EntryPopup = (props: any) => {
+   const { isDarkMode } = useUser();
    const {
       addEntry,
       isAddEntryVisible,
@@ -43,43 +48,53 @@ const EntryPopup = (props: any) => {
             className={`fixed bottom-[0px]  h-full w-full  z-50 left-0 flex  justify-center  items-center        backdrop-brightness-50  px-8     xs:px-0 `}
          >
             <div
-               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6  gap-6 rounded-2xl bg-white items-center      ${
+               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6  gap-6 rounded-2xl bg-white items-center  dark:bg-dark-grey dark:text-white     ${
                   isAddEntryVisible ? '' : 'pop-hidden'
                }`}
                ref={addEntryRef}
             >
                <div className="flex items-center w-full gap-1 flex-col">
                   <Image src={plusGrey} className="w-6  h-6 " alt="" />
-                  <h1 className="fancy text-[22px] text-black leading-none">
+                  <h1 className="fancy text-[22px] text-black leading-none dark:text-white">
                      Add entry
                   </h1>
                </div>
-               <div className="flex items-center  p-[2px]  rounded-lg bg-lightGrey  w-full">
+               <div className="flex items-center  p-[2px]  rounded-lg bg-lightGrey  w-full dark:bg-dark-dimPurple   ">
                   <button
                      onClick={() => toggleButton('income')}
-                     className={`px-4  rounded-lg  h-[28px] text-sm w-full  flex  items-center  gap-1 justify-center     ${
+                     className={`px-4  rounded-lg  h-[28px] text-sm w-full  flex  items-center  gap-1 justify-center  text-black  dark:text-white   ${
                         activeButton === 'income'
-                           ? 'bg-white  text-black'
-                           : ' text-black'
+                           ? 'bg-white   dark:bg-[#6D6873]  '
+                           : ' '
                      }`}
                   >
-                     <Image src={income} className="w-4  h-4 " alt="" />
+                     <Image
+                        src={isDarkMode ? incomeFade : income}
+                        className="w-4  h-4 "
+                        alt=""
+                     />
                      <span>Income</span>
                   </button>
                   <button
                      onClick={() => toggleButton('expense')}
-                     className={`px-4  rounded-lg  h-[28px] text-sm w-full  flex  items-center  gap-1 justify-center     ${
+                     className={`px-4  rounded-lg  h-[28px] text-sm w-full  flex  items-center  gap-1 justify-center text-black dark:text-white     ${
                         activeButton === 'expense'
-                           ? 'bg-white  text-black'
-                           : ' text-black'
+                           ? 'bg-white dark:bg-[#6D6873] '
+                           : ' '
                      }`}
                   >
-                     <Image src={expense} className="w-4  h-4 " alt="" />
+                     <Image
+                        src={isDarkMode ? expenseFade : expense}
+                        className="w-4  h-4 "
+                        alt=""
+                     />
                      <span>Expense</span>
                   </button>
                </div>
-               <div className="flex  items-center justify-center  gap-1 py-2 border-y border-lightGrey w-full">
-                  <span className="text-black  text-[22px] fancy  ">$</span>
+               <div className="flex  items-center justify-center  gap-1 py-2 border-y border-lightGrey w-full border-dotted  dark:border-dark-lightGrey">
+                  <span className="text-black  text-[22px] fancy  dark:text-white">
+                     $
+                  </span>
                   <input
                      type="text"
                      value={amount}
@@ -91,7 +106,7 @@ const EntryPopup = (props: any) => {
                         setError('');
                      }}
                      autoFocus
-                     className="  outline-none  number-input  text-[34px] fancy   "
+                     className="  outline-none  number-input  text-[34px] fancy dark:bg-dark-grey dark:text-white   "
                      placeholder="Enter amount"
                   />
                   <span
@@ -103,10 +118,16 @@ const EntryPopup = (props: any) => {
                </div>
                {error === 'Enter an amount' && (
                   <div className="w-full flex items-center justify-center gap-2">
-                     <div className="bg-pink p-1  rounded-full">
-                        <Image src={danger} className="w-3 h-3" alt="" />
+                     <div className="bg-pink p-1  rounded-full dark:bg-dark-red">
+                        <Image
+                           src={isDarkMode ? dangerFade : danger}
+                           className="w-3 h-3"
+                           alt=""
+                        />
                      </div>
-                     <h1 className="text-sm text-red">Enter an amount</h1>
+                     <h1 className="text-sm text-red dark:text-dark-pink">
+                        Enter an amount
+                     </h1>
                   </div>
                )}
 
@@ -114,7 +135,7 @@ const EntryPopup = (props: any) => {
                   <h1 className="text-sm">Describe this entry</h1>
                   <textarea
                      placeholder="E.g money from services rendered"
-                     className="text-sm     w-full h-full outline-none  bg-lightGrey  border border-lightGreyBorder rounded-lg  py-2 px-3 overflow-auto h-[110px] max-h-[150px]"
+                     className="text-sm     w-full h-full outline-none  bg-lightGrey  border border-lightGreyBorder rounded-lg  py-2 px-3 overflow-auto h-[110px] max-h-[150px] dark:bg-dark-darkPurple    dark:border-dark-lightGrey"
                      value={note}
                      onChange={(e) => setNote(e.target.value)}
                   />
@@ -124,7 +145,7 @@ const EntryPopup = (props: any) => {
                   <div className="h-[40px]  w-full flex items-center justify-center relative">
                      <input
                         placeholder="Search or create a tag"
-                        className="text-sm     w-full h-full outline-none  bg-lightGrey  border border-lightGreyBorder rounded-lg  py-2 px-3 overflow-auto pr-8 "
+                        className="text-sm     w-full h-full outline-none  bg-lightGrey  border border-lightGreyBorder rounded-lg  py-2 px-3 overflow-auto pr-8 dark:bg-dark-darkPurple    dark:border-dark-lightGrey "
                         value={tagValue}
                         onChange={(e) => {
                            setTagValue(e.target.value);
@@ -142,7 +163,7 @@ const EntryPopup = (props: any) => {
                      />
                      {tag && (
                         <div
-                           className={`w-full        duration-300 ease-in-out flex flex-col py-1  px-2   gap-1  bg-white  absolute  top-12   z-40  opacity-100  shadow-custom  h-[200px] overflow-auto  flow rounded-lg   sm:h-auto ${
+                           className={`w-full        duration-300 ease-in-out flex flex-col py-1  px-2   gap-1  bg-white  absolute  top-12   z-40  opacity-100  shadow-custom  h-[200px] overflow-auto  flow rounded-lg   sm:h-auto dark:bg-dark-darkPurple ${
                               isTagVisible ? '' : ' opacity-0'
                            }`}
                            ref={tagRef}
@@ -154,7 +175,7 @@ const EntryPopup = (props: any) => {
                                     handleTagClick(data);
                                     setIsTagActive(false);
                                  }}
-                                 className="w-full  h-[40px]  hover:bg-lightGrey flex items-center  gap-2  duration-150 text-sm  px-2  rounded-lg  border-b border-lightGrey  shrink-0"
+                                 className="w-full  h-[40px]  hover:bg-lightGrey flex items-center  gap-2  duration-150 text-sm  px-2  rounded-lg  border-b border-lightGrey  shrink-0 dark:border-dark-lightGrey  dark:hover:bg-dark-lightGrey "
                               >
                                  <Image
                                     src={tagIcon}
@@ -190,7 +211,7 @@ const EntryPopup = (props: any) => {
                      )}
                   </button>
                   <button
-                     className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm  "
+                     className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm dark:bg-dark-purple dark:text-white  "
                      onClick={toggleAddEntryPopup}
                   >
                      Cancel

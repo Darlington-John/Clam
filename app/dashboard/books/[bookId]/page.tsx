@@ -9,13 +9,10 @@ import { useUser } from '~/app/context/auth-context';
 import { usePopup } from '~/utils/tooggle-popups';
 import BookCashFlow from '../book-details/cash-flow';
 import EntryPopup from '../book-details/entry-popup';
-import bookIcon from '~/public/icons/book-open-.svg';
+import bookIcon from '~/public/icons/book-open-grey.svg';
 import rightIcon from '~/public/icons/chevron-right.svg';
 import BookEntries from '../book-details/book-entries/book-entries';
 import { generatePDF } from '~/utils/generate-pdf';
-
-import { generateImage } from '~/utils/generate-image';
-import { formatDate } from '~/utils/formattedDate';
 import PDFTemplate from '../../components/pdf-template';
 
 const BookPage = () => {
@@ -292,7 +289,7 @@ const BookPage = () => {
          const event = new Event('entryUpdated');
 
          window.dispatchEvent(event);
-         toast.success(`Description added successfully`, {
+         toast.success(`Description added`, {
             icon: <FaCheck color="white" />,
          });
          setEditDescription(false);
@@ -412,7 +409,7 @@ const BookPage = () => {
       bookData: allBookData,
    };
    return (
-      <div className="h-auto w-full px-6 flex flex-col gap-4 pb-5 ">
+      <div className="h-auto w-full px-6 flex flex-col gap-4 pb-5  dark:bg-dark-darkPurple">
          <div className="fixed top-[100%]">
             <PDFTemplate {...templateProps} />
          </div>
@@ -421,10 +418,10 @@ const BookPage = () => {
             style={{ width: '100%', height: '500px' }}
          ></iframe> */}
 
-         <div className="flex items-center justify-between w-full hidden sm:flex bg-white py-2 px-4 rounded-[8px]">
+         <div className="flex items-center justify-between w-full hidden sm:flex bg-white py-2 px-4 rounded-[8px]  dxs:px-2 dark:bg-dark-grey">
             <div className="flex items-center gap-2">
                <Image src={bookIcon} className="w-5 h-5" alt="Book Icon" />
-               <h1 className="text-[17px] text-black fancy">
+               <h1 className="text-[20px] text-black fancy dark:border-dark-lightGrey dark:text-white">
                   {bookData?.name}
                </h1>
             </div>

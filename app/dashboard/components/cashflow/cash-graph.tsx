@@ -10,8 +10,27 @@ import {
    ResponsiveContainer,
 } from 'recharts';
 import { useUser } from '~/app/context/auth-context';
+const CustomTooltip = ({ active, payload, label }: any) => {
+   if (active && payload && payload.length) {
+      return (
+         <div className="bg-white text-white p-3  border border-lightGrey flex flex-col gap-1 dark:bg-dark-grey dark:border-dark-lightGrey">
+            <p className="text-sm text-black  dark:text-white">{`${label}`}</p>
+            <div className="flex flex-col gap-1">
+               {payload.map((entry: any, index: number) => (
+                  <p key={index} className="text-sm">
+                     <span style={{ color: entry.color }}>{entry.name}: </span>
+                     <span style={{ color: entry.color }}>{entry.value}</span>
+                  </p>
+               ))}
+            </div>
+         </div>
+      );
+   }
+
+   return null;
+};
 const CashGraph = () => {
-   const { user } = useUser();
+   const { user, isDarkMode } = useUser();
    const [containerWidth, setContainerWidth] = useState(0);
    const [containerHeight, setContainerHeight] = useState(0);
    const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -118,16 +137,26 @@ const CashGraph = () => {
 
       return sortedData;
    }, [user]);
+   const defaultData = [
+      { key: 'Sun', income: 0, expense: 0 },
+      { key: 'Mon', income: 0, expense: 0 },
+      { key: 'Tue', income: 0, expense: 0 },
+      { key: 'Wed', income: 0, expense: 0 },
+      { key: 'Fri', income: 0, expense: 0 },
+      { key: 'Sat', income: 0, expense: 0 },
+   ];
    return (
       <section
          ref={chartContainerRef}
-         className="flex bg-white rounded-2xl relative shrink-0 w-[73%] h-[280px]  lg:h-auto md:w-full xs:flex-col "
+         className="flex bg-white rounded-2xl relative shrink-0 w-[73%] h-[280px]  lg:h-auto md:w-full xs:flex-col dark:bg-dark-grey "
       >
          <ResponsiveContainer width="100%" height="100%">
             <LineChart
                width={containerWidth || 500}
                height={containerHeight || 280}
-               data={chartData}
+               data={
+                  chartData && chartData.length > 0 ? chartData : defaultData
+               }
                margin={{
                   top: 24,
                   right: 42,
@@ -142,21 +171,29 @@ const CashGraph = () => {
                />
                <XAxis
                   dataKey="key"
-                  tick={{ fill: '#8D8896', fontSize: 12 }}
+                  tick={
+                     isDarkMode
+                        ? { fill: '#C6C2CC', fontSize: 12 }
+                        : { fill: '#8D8896', fontSize: 12 }
+                  }
                   tickLine={false}
                   axisLine={{ stroke: '#00000000' }}
                />
                <YAxis
-                  tick={{ fill: '#8D8896', fontSize: 12 }}
+                  tick={
+                     isDarkMode
+                        ? { fill: '#C6C2CC', fontSize: 12 }
+                        : { fill: '#8D8896', fontSize: 12 }
+                  }
                   tickLine={false}
                   axisLine={{ stroke: '#00000000' }}
                />
-               <Tooltip />
+               <Tooltip content={<CustomTooltip />} />
 
                <Line
                   type="linear"
                   dataKey="income"
-                  stroke="#00AD8E"
+                  stroke={isDarkMode ? '#00AD8E' : '#00AD8E'}
                   dot={false}
                   name="Income"
                   filter="url(#glow)"
@@ -164,7 +201,7 @@ const CashGraph = () => {
                <Line
                   type="linear"
                   dataKey="expense"
-                  stroke="#F00"
+                  stroke={isDarkMode ? '#FF8D8D' : '#F00'}
                   dot={false}
                   name="Expense"
                   filter="url(#glow)"
