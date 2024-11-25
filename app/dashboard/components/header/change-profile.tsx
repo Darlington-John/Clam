@@ -83,7 +83,7 @@ const ChangeProfile = (props: any) => {
    return (
       changeProfile && (
          <div
-            className={`fixed bottom-[0px]  h-full w-full  z-50 left-0 flex  justify-center  items-center        backdrop-brightness-50  px-8     xs:px-0  `}
+            className={`fixed bottom-[0px]  h-full w-full  z-50 left-0 flex  justify-center  items-center        backdrop-brightness-50  px-8     xs:px-0  kkk `}
          >
             <div
                className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6  gap-4  rounded-2xl bg-white items-center  dark:bg-dark-grey dark:text-white   ${
