@@ -14,6 +14,7 @@ const Profile = (props: any) => {
       profileRef,
       toggleChangeNamePopup,
       toggleChangePasswordPopup,
+      toggleChangeProfilePopup,
    } = props;
    const { isDarkMode, handleToggle } = useUser();
    return (
@@ -26,10 +27,13 @@ const Profile = (props: any) => {
          >
             <h1 className="text-[27px]  fancy dark:text-white">Your account</h1>
             <div className="flex flex-col w-full gap-1">
-               <div className="flex  items-center gap-3 py-2 px-3   bg-white rounded-lg  border-lightGreyBorder  dark:bg-[#110E11]">
+               <div className="flex  items-center gap-3 py-2 px-3   bg-white rounded-lg  border-lightGreyBorder  dark:bg-[#110E11] ">
                   <img
-                     src={'/images/blueMain4.png'}
-                     className="w-10 h-10 object-cover  rounded-full"
+                     src={
+                        user?.profile ? user.profile : '/icons/default-user.svg'
+                     }
+                     className="w-10  h-10 object-cover rounded-full cursor-pointer "
+                     onClick={toggleChangeProfilePopup}
                      alt=""
                   />
                   <div className="flex flex-col items-start line-clamp-1 ">

@@ -58,10 +58,10 @@ const ChangeName = (props: any) => {
    return (
       changeName && (
          <div
-            className={`fixed bottom-[0px]  h-full w-full  z-50 left-0 flex  justify-center  items-center        backdrop-brightness-50  px-8     xs:px-0 `}
+            className={`fixed bottom-[0px]  h-full w-full  z-50 left-0 flex  justify-center  items-center        backdrop-brightness-50  px-8     xs:px-0  `}
          >
             <div
-               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6  gap-4  rounded-2xl bg-white items-center      ${
+               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6  gap-4  rounded-2xl bg-white items-center  dark:bg-dark-grey dark:text-white   ${
                   isChangeNameVisible ? '' : 'pop-hidden'
                }`}
                ref={changeNameRef}
@@ -78,7 +78,7 @@ const ChangeName = (props: any) => {
                <div className="flex flex-col gap-1 w-full ">
                   <div className="relative w-full flex items-center justify-center">
                      <input
-                        className={`h-[40px] py-1 px-3 bg-lightGrey text-black  text-sm rounded-lg border  focus:ring-2 focus:bg-lightPurple   ring-purple outline-none w-full  ${
+                        className={`h-[40px] py-1 px-3 bg-lightGrey text-black  text-sm rounded-lg border  focus:ring-2 focus:bg-lightPurple   ring-purple outline-none w-full  dark:bg-dark-darkPurple     dark:border-dark-lightGrey dark:text-white dark:focus:ring-dark-purple ${
                            nameError ? 'border-red pr-8' : 'border-[#DFDDE3]'
                         }`}
                         placeholder="Your name"
@@ -133,7 +133,7 @@ const ChangeName = (props: any) => {
                         setName('');
                         toggleChangeNamePopup();
                      }}
-                     className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm  "
+                     className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm  dark:bg-dark-purple dark:text-white   "
                   >
                      Close
                   </button>

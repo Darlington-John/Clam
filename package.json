@@ -13,6 +13,7 @@
     "@react-pdf/renderer": "^4.0.2",
     "apexcharts": "^3.54.1",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
     "fuse.js": "^7.0.0",

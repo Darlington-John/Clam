@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import sparkles from '~/public/icons/sparkles.svg';
 import sparklesLight from '~/public/icons/sparkles-light.svg';
-import avatar from '~/public/images/blueMain4.png';
 import down from '~/public/icons/chevron-down.svg';
 import downWhite from '~/public/icons/chevron-down-white.svg';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import bars from '~/public/icons/menu-alt.svg';
 import barsFade from '~/public/icons/menuFade.svg';
 import { useDashboard } from '~/app/context/dashboard-context';
@@ -14,6 +13,7 @@ import { usePopup } from '~/utils/tooggle-popups';
 import Profile from './profile-dropdown';
 import ChangeName from './change-name';
 import ChangePassword from './change-password';
+import ChangeProfile from './change-profile';
 const Header = () => {
    const { isOverlayOpen, setIsOverlayOpen } = useDashboard();
    const linkname = usePathname();
@@ -50,12 +50,19 @@ const Header = () => {
       ref: changePasswordRef,
       togglePopup: toggleChangePasswordPopup,
    } = usePopup();
+   const {
+      isVisible: isChangeProfileVisible,
+      isActive: changeProfile,
+      ref: changeProfileRef,
+      togglePopup: toggleChangeProfilePopup,
+   } = usePopup();
    const profileDropdownProps = {
       profile,
       isProfileVisible,
       profileRef,
       toggleChangeNamePopup,
       toggleChangePasswordPopup,
+      toggleChangeProfilePopup,
    };
    const changeNameProps = {
       changeName,
@@ -69,6 +76,12 @@ const Header = () => {
       changePasswordRef,
       toggleChangePasswordPopup,
    };
+   const changeProfileProps = {
+      isChangeProfileVisible,
+      changeProfile,
+      changeProfileRef,
+      toggleChangeProfilePopup,
+   };
    return (
       <header className="flex items-center justify-between  w-full py-3 px-6  xl:px-3 sticky top-0 bg-lightestGrey z-20 dark:bg-dark-darkPurple   ">
          <Image
@@ -79,13 +92,15 @@ const Header = () => {
          />
          <div className="relative">
             <div
-               className="text-sm  flex gap-2 items-center  py-1 px-2 rounded-full bg-white dark:bg-dark-grey  "
+               className="text-sm  flex gap-2 items-center  py-1 px-2 rounded-full bg-white dark:bg-dark-grey  cursor-pointer "
                onClick={toggleProfilePopup}
             >
-               <Image
-                  src={avatar}
+               <img
+                  src={user?.profile ? user.profile : '/icons/default-user.svg'}
                   className="w-6 h-6 object-cover rounded-full "
                   alt=""
+                  width={24}
+                  height={24}
                />
                <h1 className="dark:text-white">
                   {user?.name ? user.name : user?.email}
@@ -122,6 +137,7 @@ const Header = () => {
          </button>
          <ChangeName {...changeNameProps} />
          <ChangePassword {...changePasswordProps} />
+         <ChangeProfile {...changeProfileProps} />
       </header>
    );
 };

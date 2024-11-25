@@ -139,7 +139,7 @@ const ChangePassword = (props: any) => {
             className={`fixed bottom-[0px]  h-full w-full  z-50 left-0 flex  justify-center  items-center        backdrop-brightness-50  px-8     xs:px-0 `}
          >
             <div
-               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6  gap-4  rounded-2xl bg-white items-center      ${
+               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6  gap-4  rounded-2xl bg-white items-center dark:bg-dark-grey  dark:text-white    ${
                   isChangePasswordVisible ? '' : 'pop-hidden'
                }`}
                ref={changePasswordRef}
@@ -156,11 +156,11 @@ const ChangePassword = (props: any) => {
                         <h1 className="text-sm">Password</h1>
                         <div className="relative w-full flex items-center justify-center">
                            <input
-                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1 ${
+                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1 dark:bg-dark-darkPurple    dark:text-white ${
                                  [`Passwords don't match`].includes(
                                     passwordError
                                  )
-                                    ? 'border-red pr-8'
+                                    ? 'border-red dark:border-darkpink  pr-8'
                                     : 'border-[#DFDDE3]'
                               } `}
                               type={isPasswordVisible ? 'text' : 'password'}
@@ -185,9 +185,9 @@ const ChangePassword = (props: any) => {
                         <h1 className="text-sm">Re-type password</h1>
                         <div className="relative w-full flex items-center justify-center">
                            <input
-                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1 ${
+                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1 dark:bg-dark-darkPurple    dark:border-dark-lightGrey dark:text-white ${
                                  passwordError === `Passwords don't match`
-                                    ? 'border-red pr-8'
+                                    ? 'border-red dark:border-darkpink  pr-8'
                                     : 'border-[#DFDDE3]'
                               } `}
                               type={
@@ -211,7 +211,11 @@ const ChangePassword = (props: any) => {
                         </div>
                      </div>
                      {passwordError && (
-                        <p className={`text-[9px] text-red`}>{passwordError}</p>
+                        <p
+                           className={`text-[9px] text-red dark:text-dark-pink`}
+                        >
+                           {passwordError}
+                        </p>
                      )}
                      <div className="flex items-center gap-2">
                         <button
@@ -251,12 +255,12 @@ const ChangePassword = (props: any) => {
                         <h1 className="text-sm">Old password</h1>
                         <div className="relative w-full flex items-center justify-center">
                            <input
-                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1 ${
+                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1 dark:border-dark-lightGrey dark:bg-dark-darkPurple    dark:text-white ${
                                  [
                                     'Old password is required',
                                     'Incorrect password.',
                                  ].includes(passwordError)
-                                    ? 'border-red pr-8'
+                                    ? 'border-red dark:border-darkpink  pr-8'
                                     : 'border-[#DFDDE3]'
                               } `}
                               type={isPasswordVisible ? 'text' : 'password'}
@@ -280,7 +284,9 @@ const ChangePassword = (props: any) => {
                            'Old password is required',
                            'Incorrect password.',
                         ].includes(passwordError) && (
-                           <p className={`text-[9px] text-red`}>
+                           <p
+                              className={`text-[9px] text-red dark:text-dark-pink`}
+                           >
                               {passwordError}
                            </p>
                         )}
@@ -289,9 +295,9 @@ const ChangePassword = (props: any) => {
                         <h1 className="text-sm">New password</h1>
                         <div className="relative w-full flex items-center justify-center">
                            <input
-                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1 ${
+                              className={`h-[40px] py-1 pl-3 pr-8  bg-lightGrey text-black  text-sm rounded-lg border border-[#DFDDE3] focus:ring-2  ring-purple outline-none   w-full line-clamp-1  dark:border-dark-lightGrey dark:bg-dark-darkPurple  dark:text-white  ${
                                  passwordError === 'New password is required'
-                                    ? 'border-red pr-8'
+                                    ? 'border-red dark:border-darkpink  pr-8'
                                     : 'border-[#DFDDE3]'
                               } `}
                               type={isNewPasswordVisible ? 'text' : 'password'}
@@ -312,7 +318,9 @@ const ChangePassword = (props: any) => {
                            />
                         </div>
                         {passwordError === 'New password is required' && (
-                           <p className={`text-[9px] text-red`}>
+                           <p
+                              className={`text-[9px] text-red dark:text-dark-pink`}
+                           >
                               {passwordError || 'New password is required'}
                            </p>
                         )}
@@ -322,7 +330,11 @@ const ChangePassword = (props: any) => {
                         'Old password is required',
                         'Incorrect password.',
                      ].includes(passwordError) && (
-                        <p className={`text-[9px] text-red`}>{passwordError}</p>
+                        <p
+                           className={`text-[9px] text-red dark:text-dark-pink`}
+                        >
+                           {passwordError}
+                        </p>
                      )}
                      <div className="flex items-center gap-2">
                         <button
@@ -349,7 +361,7 @@ const ChangePassword = (props: any) => {
                               setPasswordError('');
                               toggleChangePasswordPopup();
                            }}
-                           className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm  "
+                           className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm  dark:bg-dark-purple dark:text-white "
                         >
                            Close
                         </button>
