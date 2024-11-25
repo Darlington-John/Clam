@@ -126,7 +126,7 @@ const ChangeProfile = (props: any) => {
                      <div className="bg-pink p-1  rounded-full">
                         <Image src={danger} className="w-3 h-3" alt="" />
                      </div>
-                     <h1 className="text-sm text-red  dark:text-pink">
+                     <h1 className="text-sm text-red  dark:text-pink dandadan">
                         {error}
                      </h1>
                   </div>
