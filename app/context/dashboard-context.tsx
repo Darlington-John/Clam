@@ -115,10 +115,7 @@ export const DashboardProvider = ({
       setTimeout(() => {
          toggleFirstThingsPopup();
          setPopupShown(true);
-      }, 5000);
-      // setTimeout(() => {
-      //    setPopupShown(true);
-      // }, 6000);
+      }, 2000);
    }, [user, firstThings, popupShown]);
    const providerValue = useMemo(
       () => ({

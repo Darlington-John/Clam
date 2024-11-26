@@ -25,7 +25,7 @@ export default function RootLayout({
    }, [router]);
    const { loading, isDarkMode } = useUser();
    return (
-      <main className="h-screen overflow-hidden  flex items-start ">
+      <main className="h-screen overflow-hidden  flex items-start  dark:bg-dark-darkPurple">
          <Sidebar hidden />
          <NewBookPopup />
          <FirstThingsFirst />

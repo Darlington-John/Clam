@@ -64,7 +64,7 @@ const CashFlow = () => {
                   className="h-[55px]  absolute  xs:rotate-90 xs:h-full  xs:w-[5px]  object-cover xs:hidden "
                   alt=""
                />
-               <div className="w-full absolute hidden xs:flex bg-lightestGrey  p-[2px]   "></div>
+               <div className="w-full absolute hidden xs:flex bg-lightestGrey  p-[2px]    dark:bg-dark-lightGrey"></div>
                <div className="flex-1 flex   py-6 px-8  flex-col items-center gap-4 xl:py-3 xl:px-4  xs:w-full  xs:py-6 xs:gap-2">
                   <div className="flex flex-col gap-1">
                      <div className="flex gap-2  items-center">

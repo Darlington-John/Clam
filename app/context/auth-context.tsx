@@ -27,7 +27,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
    useEffect(() => {
       if (session) {
-         localStorage.removeItem('logoutFlag'); // Remove logoutFlag when session exists.
+         localStorage.removeItem('logoutFlag');
       }
    }, [session]);
 
@@ -38,10 +38,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             const token: any = localStorage.getItem('token');
             const oauthId = localStorage.getItem('oauthId');
 
-            // If neither token nor oauthId is found, exit the function.
             if (!token && !oauthId) return;
 
-            // Check if the token has expired.
             const isTokenExpired = () => {
                try {
                   const decodedToken = JSON.parse(atob(token.split('.')[1]));
@@ -52,7 +50,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                }
             };
 
-            // If the token is expired, remove it and check if oauthId exists to continue or log in.
             if (token && isTokenExpired()) {
                localStorage.removeItem('token');
                if (!oauthId) {
@@ -61,7 +58,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                }
             }
 
-            // Function to poll user data.
             const pollUserData = async () => {
                try {
                   const res = await fetch('/api/user', {
@@ -77,9 +73,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                      setUser(data.user);
                   } else if ([401, 404, 500].includes(res.status)) {
                      localStorage.removeItem('token');
-                     localStorage.setItem('logoutFlag', 'true'); // Set logoutFlag if there is an issue.
+                     localStorage.setItem('logoutFlag', 'true');
                      signOut({ callbackUrl: '/auth/log-in' });
-                     localStorage.removeItem('oauthId'); // Remove oauthId on sign out.
+                     localStorage.removeItem('oauthId');
 
                      window.location.href = '/auth/log-in';
                   } else {
@@ -88,7 +84,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                } catch (err) {
                   console.error('Failed to fetch user', err);
                } finally {
-                  setTimeout(pollUserData, 2000); // Poll every 2 seconds.
+                  setTimeout(pollUserData, 2000);
                }
             };
 
@@ -110,7 +106,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
    }, []);
    const [isDarkMode, setIsDarkMode] = useState(false);
 
-   // Sync with localStorage on load
    useEffect(() => {
       const darkModePreference = localStorage.getItem('darkMode');
       if (darkModePreference === 'true') {

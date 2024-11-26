@@ -1,4 +1,3 @@
-// app/api/reset-password/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import connectMongo from '~/lib/mongodb';
@@ -6,34 +5,36 @@ import User from '~/models/User';
 import { mailOptions, transporter } from '~/lib/nodemailer';
 
 export async function POST(req: NextRequest) {
-  try {
-    await connectMongo();
-    const { email } = await req.json();
+   try {
+      await connectMongo();
+      const { email } = await req.json();
 
-    // Find the user by email
-    const user = await User.findOne({ email });
-    if (!user) {
-      return NextResponse.json({ error: 'Email does not exist.' }, { status: 404 });
-    }
+      const user = await User.findOne({ email });
+      if (!user) {
+         return NextResponse.json(
+            { error: 'Email does not exist.' },
+            { status: 404 }
+         );
+      }
 
-    // Generate a 4-digit verification code
-    const verificationCode = Math.floor(1000 + Math.random() * 9000);
-    const hashedVerificationCode = await bcrypt.hash(verificationCode.toString(), 10);
+      const verificationCode = Math.floor(1000 + Math.random() * 9000);
+      const hashedVerificationCode = await bcrypt.hash(
+         verificationCode.toString(),
+         10
+      );
 
-    // Update user's verificationHash in the database
-    user.verificationHash = hashedVerificationCode;
-    await user.save();
+      user.verificationHash = hashedVerificationCode;
+      await user.save();
 
-    // Send verification code email to the user
-    await transporter.sendMail({
-      ...mailOptions,
-      to: email,
-      subject: 'Your Password Reset Code',
-      html: `
+      await transporter.sendMail({
+         ...mailOptions,
+         to: email,
+         subject: 'Your Password Reset Code',
+         html: `
     <table style=" background-color: #5D1EC2;font-family: Arial, sans-serif; border-radius: 10px; max-width: 400px; margin: 10px auto; padding: 50px 30px; ">
     <tr>
       <td align="center" style="padding: 0px;">
-        <img src="https://res.cloudinary.com/dycw73vuy/image/upload/v1729863759/Logo_1_apiq75.png" alt="logo" width="200" style="display: block; margin: 0 auto; border: none;" />
+        <img src="https:
       </td>
     </tr>
     <tr>
@@ -62,15 +63,20 @@ export async function POST(req: NextRequest) {
     </tr>
   </table>
       `,
-    });
+      });
 
-    return NextResponse.json({
-      message: 'Reset email sent, if the email exists.',
-      email: email,
-    }, { status: 200 });
-
-  } catch (error) {
-    console.error('Error in reset password route:', error);
-    return NextResponse.json({ error: 'An error occurred.' }, { status: 500 });
-  }
+      return NextResponse.json(
+         {
+            message: 'Reset email sent, if the email exists.',
+            email: email,
+         },
+         { status: 200 }
+      );
+   } catch (error) {
+      console.error('Error in reset password route:', error);
+      return NextResponse.json(
+         { error: 'An error occurred.' },
+         { status: 500 }
+      );
+   }
 }

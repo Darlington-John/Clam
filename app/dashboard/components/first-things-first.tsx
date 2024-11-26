@@ -17,13 +17,13 @@ const FirstThingsFirst = () => {
             className={`fixed bottom-[0px]  h-full w-full  z-50 left-0 flex  justify-center  items-center        backdrop-brightness-50  px-8     xs:px-0 `}
          >
             <div
-               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6 gap-4 rounded-2xl bg-white items-center     ${
+               className={`w-[320px]     pop  duration-300 ease-in-out flex flex-col p-6 gap-4 rounded-2xl bg-white items-center dark:bg-dark-grey dark:text-white     ${
                   isFirstThingsVisible ? '' : 'pop-hidden'
                }`}
                ref={firstThingsRef}
             >
                <Image className="w-14 h-14" src={wave} alt="" />
-               <h1 className="fancy text-[22px] text-black">
+               <h1 className="fancy text-[22px] text-black dark:text-white">
                   First thing first
                </h1>
                <p className="text-sm text-center">
@@ -43,7 +43,7 @@ const FirstThingsFirst = () => {
                      <span>Create a book</span>
                   </button>
                   <button
-                     className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm  "
+                     className="bg-lightPurple  text-purple px-4 h-[40px] rounded-full hover:ring hover:ring-offset-1  ring-purple duration-300 norm-mid text-sm dark:bg-dark-purple dark:text-white  "
                      onClick={toggleFirstThingsPopup}
                   >
                      Close

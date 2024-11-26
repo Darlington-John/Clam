@@ -12,11 +12,12 @@ import EntryPopup from '../book-details/entry-popup';
 import bookIcon from '~/public/icons/book-open-grey.svg';
 import rightIcon from '~/public/icons/chevron-right.svg';
 import BookEntries from '../book-details/book-entries/book-entries';
+import rightFade from '~/public/icons/chevron-fade.svg';
 import { generatePDF } from '~/utils/generate-pdf';
 import PDFTemplate from '../../components/pdf-template';
 
 const BookPage = () => {
-   const { user } = useUser();
+   const { user, isDarkMode } = useUser();
    const { bookId } = useParams();
    const [bookData, setBookData] = useState<any>(null);
    const [allBookData, setAllBookData] = useState<any>(null);
@@ -408,6 +409,7 @@ const BookPage = () => {
    const templateProps = {
       bookData: allBookData,
    };
+
    return (
       <div className="h-auto w-full px-6 flex flex-col gap-4 pb-5  dark:bg-dark-darkPurple">
          <div className="fixed top-[100%]">
@@ -425,7 +427,11 @@ const BookPage = () => {
                   {bookData?.name}
                </h1>
             </div>
-            <Image src={rightIcon} className="w-5 h-5" alt="Right Icon" />
+            <Image
+               src={isDarkMode ? rightFade : rightIcon}
+               className="w-5 h-5"
+               alt="Right Icon"
+            />
          </div>
          <div ref={cashFlowRef}>
             <BookCashFlow {...cashFlowProps} />

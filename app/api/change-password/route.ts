@@ -11,7 +11,6 @@ export async function POST(req: NextRequest) {
 
       const { email, password, newPassword } = await req.json();
 
-      // Find the user by email
       const user = await User.findOne({ email });
       if (!user) {
          return NextResponse.json(
@@ -20,9 +19,7 @@ export async function POST(req: NextRequest) {
          );
       }
 
-      // If the user is a Google signee
       if (user.authProvider === 'google') {
-         // Hash the new password and update the authProvider to 'local'
          const hashedNewPassword = await bcrypt.hash(newPassword, 10);
          user.password = hashedNewPassword;
          user.authProvider = 'local';
@@ -42,7 +39,6 @@ export async function POST(req: NextRequest) {
          );
       }
 
-      // If the user is already a local signee, verify the old password
       if (user.authProvider === 'local') {
          const isMatch = await bcrypt.compare(password, user.password);
          if (!isMatch) {
@@ -52,7 +48,6 @@ export async function POST(req: NextRequest) {
             );
          }
 
-         // Hash the new password and update it
          const hashedNewPassword = await bcrypt.hash(newPassword, 10);
          user.password = hashedNewPassword;
          await user.save();
