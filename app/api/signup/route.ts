@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
      <table style=" background-color: #5D1EC2;font-family: Arial, sans-serif; border-radius: 10px; max-width: 400px; margin: 10px auto; padding: 50px 30px; ">
       <tr>
         <td align="center" style="padding: 0px;">
-          <img src="https:
+          <img src="https://res.cloudinary.com/dycw73vuy/image/upload/v1729863759/Logo_1_apiq75.png" style="width: 200px;"/>
         </td>
       </tr>
       <tr>

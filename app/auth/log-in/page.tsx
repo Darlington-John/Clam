@@ -144,7 +144,9 @@ const Login = () => {
                         }`}
                      >
                         {error !== 'Incorrect password'
-                           ? error
+                           ? error === 'Illegal arguments: string, undefined'
+                              ? 'An error occured. Try signing in with google'
+                              : error
                            : 'We will be verifying this mail'}
                      </label>
                   </div>

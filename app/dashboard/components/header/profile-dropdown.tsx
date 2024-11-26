@@ -68,6 +68,17 @@ const Profile = (props: any) => {
                      />
                   </button>
                   <button
+                     className="flex items-center bg-white justify-between p-3 rounded-lg outline-none  hover:bg-lightPurple  duration-150  dark:bg-dark-grey  dark:hover:bg-dark-lightGrey "
+                     onClick={toggleChangeProfilePopup}
+                  >
+                     <h1 className="text-sm dark:text-white">Change image</h1>
+                     <Image
+                        src={isDarkMode ? rightFade : right}
+                        alt=""
+                        className="h-5 w-5"
+                     />
+                  </button>
+                  <button
                      className="flex items-center bg-white justify-between p-3 rounded-lg outline-none  hover:bg-lightPurple  duration-150 dark:bg-dark-grey  dark:hover:bg-dark-lightGrey  "
                      onClick={toggleChangePasswordPopup}
                   >

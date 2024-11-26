@@ -6,11 +6,13 @@ import { useState } from 'react';
 import { useUser } from '~/app/context/auth-context';
 import eye from '~/public/icons/eye.svg';
 import eyeoff from '~/public/icons/eye-off.svg';
+import eyeFade from '~/public/icons/eyeFade.svg';
+import eyeOffFade from '~/public/icons/eye-off-fade.svg';
 import userIcon from '~/public/images/userprofile.svg';
 import loading from '~/public/images/load.svg';
 import check from '~/public/icons/check.svg';
 const ChangePassword = (props: any) => {
-   const { user } = useUser();
+   const { user, isDarkMode } = useUser();
    const email = user?.email;
    const {
       changePassword,
@@ -274,7 +276,15 @@ const ChangePassword = (props: any) => {
                               }}
                            />
                            <Image
-                              src={isPasswordVisible ? eyeoff : eye}
+                              src={
+                                 isDarkMode
+                                    ? isPasswordVisible
+                                       ? eyeOffFade
+                                       : eyeFade
+                                    : isPasswordVisible
+                                    ? eyeoff
+                                    : eye
+                              }
                               alt=""
                               className="w-5 absolute  right-2 cursor-pointer "
                               onClick={handleTogglePasswordVisibility}
@@ -311,7 +321,15 @@ const ChangePassword = (props: any) => {
                               }}
                            />
                            <Image
-                              src={isNewPasswordVisible ? eyeoff : eye}
+                              src={
+                                 isDarkMode
+                                    ? isRetypePasswordVisible
+                                       ? eyeOffFade
+                                       : eyeFade
+                                    : isRetypePasswordVisible
+                                    ? eyeoff
+                                    : eye
+                              }
                               alt=""
                               className="w-5 absolute  right-2 cursor-pointer "
                               onClick={handleToggleNewPasswordVisibility}
