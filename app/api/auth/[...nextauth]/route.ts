@@ -73,6 +73,9 @@ const authOptions: any = {
          session.user.oauthId = token.sub;
          return session;
       },
+      async redirect({ url, baseUrl }: any) {
+         return `${process.env.NEXTAUTH_URL}/dashboard`;
+      },
    },
 };
 
