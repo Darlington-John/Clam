@@ -29,13 +29,9 @@ export async function POST(req: NextRequest) {
          );
       }
 
-      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-         expiresIn: '1y',
-      });
-
       (user.verificationHash as any) = undefined;
 
-      return NextResponse.json({ token: token, email: email }, { status: 200 });
+      return NextResponse.json({ email: email }, { status: 200 });
    } catch (error) {
       return NextResponse.json(
          { error: 'Verification failed' },

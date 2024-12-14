@@ -335,7 +335,7 @@ const BookEntries = (props: any) => {
                {areFiltersApplied ? (
                   filteredEntries.length === 0 ? (
                      <h1 className="text-sm text-grey">
-                        Could&apos;nt find an entry that matches your filters
+                        Couldn&apos;t find an entry that matches your filters
                      </h1>
                   ) : (
                      <div className="flex flex-col  w-full md:overflow-x-auto  md:overflow-y-hidden ">

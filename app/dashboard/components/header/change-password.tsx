@@ -81,7 +81,7 @@ const ChangePassword = (props: any) => {
             setPasswordSaving(false);
          }
       } catch (err) {
-         setPasswordError('An unexpected error occurred');
+         setPasswordError('An  error occurred');
          setPasswordSaving(false);
       }
    };
@@ -131,7 +131,7 @@ const ChangePassword = (props: any) => {
             setPasswordSaving(false);
          }
       } catch (err) {
-         setPasswordError('An unexpected error occurred');
+         setPasswordError('An  error occurred');
          setPasswordSaving(false);
       }
    };

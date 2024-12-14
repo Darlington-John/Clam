@@ -89,10 +89,9 @@ const VerifyEmail = () => {
          const data = await response.json();
 
          if (response.ok) {
-            localStorage.setItem('token', data.token);
             setTimeout(() => {
                window.location.href = '/auth/forgot-password/reset';
-            }, 5000);
+            }, 2000);
          } else {
             setError(data.error || 'Verification failed');
          }

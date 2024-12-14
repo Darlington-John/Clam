@@ -31,37 +31,62 @@ export async function POST(req: NextRequest) {
          to: email,
          subject: 'Your Password Reset Code',
          html: `
-    <table style=" background-color: #5D1EC2;font-family: Arial, sans-serif; border-radius: 10px; max-width: 400px; margin: 10px auto; padding: 50px 30px; ">
-    <tr>
-      <td align="center" style="padding: 0px;">
-        <img src="https:
-      </td>
-    </tr>
-    <tr>
-      <td style="border-top: 1px solid #ffffff; padding: 50px 15px; box-sizing: border-box; color: #ffffff;">
-        <p style="margin: 0; padding-bottom: 10px;">Trouble signing in?</p>
-        <p style="font-size: 14px; font-weight: 300; line-height: 20px; margin: 0 0 20px 0;">
-            Resetting your password is easy.
-            <br/>
-            Just copy the verification code below and follow the instructions. We’ll have you up and running in no time.
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" style="padding: 10px 0;">
-        <p style="font-size: 40px; color: #ffffff; font-weight: bold; margin: 0;">
-          ${verificationCode}
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td align="start" style="padding-top: 20px;">
-        <p style="font-size: 14px; color: #ffffff; margin: 0;">
-            © Clam. 2024
-        </p>
-      </td>
-    </tr>
-  </table>
+ <table
+  style="
+    background-color: #5d1ec2;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 50px 30px;
+  "
+>
+  <tr>
+    <td align="center" style="padding: 0px">
+      <img
+        src="https://res.cloudinary.com/dycw73vuy/image/upload/v1729863759/Logo_1_apiq75.png"
+        style="width: 200px"
+      />
+    </td>
+  </tr>
+  <tr>
+    <td
+      style="
+        border-top: 1px solid #ffffff;
+        padding: 50px 15px;
+        box-sizing: border-box;
+        color: #ffffff;
+      "
+    >
+      <p style="margin: 0; padding-bottom: 10px">Trouble signing in?</p>
+      <p
+        style="
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+          margin: 0 0 20px 0;
+        "
+      >
+        Resetting your password is easy.
+        <br />
+        Just copy the verification code below and follow the instructions. We’ll
+        have you up and running in no time.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding: 10px 0">
+      <p style="font-size: 40px; color: #ffffff; font-weight: bold; margin: 0">
+        ${verificationCode}
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td align="start" style="padding-top: 20px">
+      <p style="font-size: 14px; color: #ffffff; margin: 0">© Clam. 2024</p>
+    </td>
+  </tr>
+</table>
       `,
       });
 

@@ -51,7 +51,7 @@ const ChangeName = (props: any) => {
             setNameSaving(false);
          }
       } catch (err) {
-         setNameError('An unexpected error occurred');
+         setNameError('An  error occurred');
          setNameSaving(false);
       }
    };

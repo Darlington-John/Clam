@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import connectMongo from '~/lib/mongodb';
 import User from '~/models/User';
+import jwt from 'jsonwebtoken';
 
+const JWT_SECRET = process.env.JWT_SECRET as string;
 export async function POST(req: NextRequest) {
    try {
       await connectMongo();
@@ -21,9 +23,11 @@ export async function POST(req: NextRequest) {
 
       user.password = hashedPassword;
       await user.save();
-
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+         expiresIn: '1y',
+      });
       return NextResponse.json(
-         { message: 'Password updated successfully.' },
+         { message: 'Password updated successfully.', token: token },
          { status: 200 }
       );
    } catch (error) {

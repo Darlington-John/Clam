@@ -46,7 +46,7 @@ const Login = () => {
             setSubmitting(false);
          }
       } catch (err) {
-         setError('An unexpected error occurred');
+         setError('An  error occurred');
          setSubmitting(false);
       }
    };
@@ -194,7 +194,7 @@ const Login = () => {
                   </button>
                </form>
 
-               <button
+               {/* <button
                   className="text-purple  text-center text-sm  norm-mid  h-10 rounded-full   bg-lightPurple flex items-center justify-center gap-1 hover:ring ring-offset-2 hover:ring-[2px]  ring-purple duration-300"
                   onClick={() => signIn('google')}
                >
@@ -204,7 +204,7 @@ const Login = () => {
                      className="w-5   cursor-pointer "
                   />
                   <span>Use Google Instead</span>
-               </button>
+               </button> */}
                <Link
                   href={'/auth/forgot-password'}
                   className="underline text-purple norm-mid  text-[17px] text-center md:text-sm"
